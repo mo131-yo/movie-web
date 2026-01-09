@@ -2,8 +2,6 @@ import React from 'react';
 import Image from 'next/image';
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { MovieCard } from './MovieCard';
-
 
 export type Movie = {
   id: number;
@@ -41,6 +39,9 @@ export const SearchResult = ({ keyword, results, onClose }: Props) => {
           </div>
         );
       })}
+       <Link href={`/movie`} onClick={onClose}>
+          <p className='text-lg text-black ' onClick={onClose}>Results</p>
+       </Link>
     </div>
   );
 }

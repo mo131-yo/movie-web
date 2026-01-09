@@ -4,9 +4,7 @@ import Upcoming from "./components/Upcoming";
 import Toprated from "./components/Toprated";
 import { Scroll } from "./components/Scroll";
 import Link from "next/link";
-import { hover } from "motion"
-import { fetchMovieById } from "@/lib/tmdb";
-import { MovieCard } from "@/app/components/MovieCard";
+import { HiArrowSmallRight } from "react-icons/hi2";
 export type Movie = {
   id: number;
   title: string;
@@ -22,21 +20,27 @@ export default async function Home() {
         href="/category/popular"
         className="flex flex-row-reverse pt-4 pb-4 pl-6 pr-6"
       >
-        <Button className="w-30 h-9 bg-amber-200 ">daraach</Button>
+        <Button className="w-30 h-9 mt-8 hover:bg-gray-600 hover:text-white">Daraach
+          <HiArrowSmallRight />
+        </Button>
       </Link>
       <Popular />
       <Link
         href="/category/upcoming"
         className="flex flex-row-reverse pt-2 pb-2 pl-4 pr-4 "
       >
-        <Button className="w-30 h-9 bg-amber-200 ">daraach</Button>
+        <Button className="w-30 h-9 mt-8 hover:bg-gray-600 hover:text-white">Daraach
+          <HiArrowSmallRight />
+        </Button>
       </Link>
       <Upcoming />
       <Link
         href="/category/top_rated"
         className="flex flex-row-reverse pt-2 pb-2 pl-4 pr-4"
       >
-        <Button className="w-30 h-9 bg-amber-200 ">daraach</Button>
+        <Button className="w-30 h-9 mt-8 hover:bg-gray-600 hover:text-white">Daraach
+          <HiArrowSmallRight />
+        </Button>
       </Link>
       <Toprated />
     </div>

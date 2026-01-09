@@ -1,8 +1,5 @@
 "use client";
-
 import React, { ChangeEvent, useState } from "react";
-import { Badge } from "@/app/ui/Badge";
-import { Input } from "../ui/Input";
 import { usePathname, useRouter } from "next/navigation";
 import { SearchResult } from "./SearchResult";
 import useSWR from "swr";
@@ -11,13 +8,12 @@ import { Loader } from "lucide-react";
 import { TbMovie } from "react-icons/tb";
 import { Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { SlArrowDown } from "react-icons/sl";
+import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
 import { useTheme } from "next-themes";
+import {Genre} from "./Genre";
+import Link from "next/link";
+import { motion } from "framer-motion"; 
 
 type Movie = {
   id: number;
@@ -28,11 +24,15 @@ type Movie = {
   overview: string;
 };
 
+type Props = {
+  keyword: string;
+  results: Movie[];
+  onClose: () => void;
+};
+
 export const Header = () => {
   const variantType: "default" | "outline" | "secondary" | "destructive" =
     "outline";
-  const pathname = usePathname();
-  const { push } = useRouter();
   const [searchValue, setSearchValue] = useState("");
   const { data, isLoading } = useSWR(
     `${process.env.NEXT_PUBLIC_TMDB_BASE_URL}/search/movie?query=${searchValue}&language=en-US&page=1`,
@@ -46,42 +46,33 @@ export const Header = () => {
   };
 
   const { theme, setTheme } = useTheme();
-
+  const [isGenreOpen, setIsGenreOpen] = useState(false);
   return (
-    <div className="h-14.75 w-full px-16 flex justify-between items-center bg-white dark:bg-gray-900 transition-colors">
+    <div className="h-14.75 w-full px-16 flex justify-between items-center transition-colors">
       {/* Logo */}
       <div className="flex flex-row w-100 justify-center gap-3">
-        <TbMovie className="w-5 h-5 text-indigo-700" />
-        <p className="text-indigo-700 font-bold text-lg">Movie Z</p>
+          <motion.div
+        whileHover={{ scale: 1.05 }}
+        className="relative w-60 rounded-xl"
+        transition={{ duration: 0.25 }}>
+        <Link href={"/"} className="flex gap-3 pl-4">
+        <TbMovie className="w-5 h-5 text-indigo-700 relative top-1"/>
+         <p className="text-indigo-700 font-bold text-lg">Movie Z</p>
+        </Link>
+        </motion.div>
       </div>
-
-     {/* { Haih heseg} */}
-      <div className="w-full flex justify-center relative gap-3">
-        <Badge
-          variant={variantType}
-          className="w-24 h-9"
-          onClick={() => setSearchValue("")}
-        >
-          Genre
-        </Badge>
-
+     {/* genre */}
+      <div className="w-full flex justify-center relative gap-3" >
+        <Genre keyword={""} results={[]} onClose={function (): void {
+          throw new Error("Function not implemented.");
+        } } />
+        {/* {Search heseg} */}
         <div className="w-full relative">
-          <input
-            type="text"
-            className="w-full border p-2 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-            placeholder="Хайх"
-            onChange={handleChange}
-            value={searchValue}
-          />
+          <input type="text" className="w-full border p-2 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white" placeholder="Хайх" onChange={handleChange} value={searchValue}/>
           {isLoading && <Loader className="absolute right-2 top-2" />}
-          <SearchResult
-            keyword={searchValue}
-            results={results}
-            onClose={() => setSearchValue("")}
-          />
+          <SearchResult keyword={searchValue} results={results} onClose={() => setSearchValue("")}/>
         </div>
       </div>
-
     {/* {Dark Mode} */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>

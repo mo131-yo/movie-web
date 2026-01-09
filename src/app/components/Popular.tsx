@@ -31,7 +31,7 @@ return data.results;
   return (
     <div>
       <h3 className="font-semibold text-2xl text-black pr-20 pl-20 pb-5">Popular movies</h3>
-        <div className="grid grid-cols-5 pr-20 pl-20 h-244.5 w-full ">
+        <div className="grid grid-cols-5 pr-20 pl-20 h-244.5 w-full gap-8">
         {movies.slice(0,10).map((movie)=>(
            <MovieCard movie={movie} key={movie.id}/>
         ))}
