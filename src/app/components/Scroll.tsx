@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { Bigpic } from "./Bigpic";
+import Link from "next/link";
 
 import {
   Carousel,
@@ -39,17 +40,17 @@ export const Scroll = async () => {
   const nowplayingMovies: Movie[] = await fetchfromNowPlayingMovieDB();
 
   return (
-    <Carousel className="w-full">
-      <CarouselContent>
-        {nowplayingMovies.map((movie) => (
-          <CarouselItem key={movie.id}>
-            <Bigpic movie={movie} />
-          </CarouselItem>
-        ))}
-      </CarouselContent>
-      <CarouselPrevious className="left-4" />
-      <CarouselNext className="right-4" />
-    </Carousel>
+     <Carousel className="w-full">
+  <CarouselContent>
+    {nowplayingMovies.map((movie) => (
+      <CarouselItem key={movie.id}>
+          <Bigpic movie={movie} />
+      </CarouselItem>
+    ))}
+  </CarouselContent>
+  <CarouselPrevious className="left-4" />
+  <CarouselNext className="right-4" />
+</Carousel>
   );
 };
 

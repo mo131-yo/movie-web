@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 export type Movie = {
-  id: number;
+  id: string;
   title: string;
   poster_path: string;
   vote_average: number;
@@ -13,10 +13,12 @@ export type Movie = {
   release_date :string
 };
 type Props = {
+  id: string;
   keyword: string;
   results: Movie[];
   onClose: () => void;
 };
+
 
 export const SearchResult = ({ keyword, results, onClose }: Props) => {
   if (!keyword) return null;
@@ -39,9 +41,9 @@ export const SearchResult = ({ keyword, results, onClose }: Props) => {
           </div>
         );
       })}
-       <Link href={`/movie`} onClick={onClose}>
-          <p className='text-lg text-black ' onClick={onClose}>Results</p>
-       </Link>
+        <Link href={`/results/${results.id}`} onClick={onClose}>
+            <Button className="w-30 h-9 bg-amber-200">Results</Button>
+          </Link>
     </div>
   );
 }

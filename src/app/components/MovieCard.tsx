@@ -96,7 +96,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
           </div>
           <div className="flex items-center gap-1 text-sm mt-1 text-gray-600 dark:text-gray-300">
             <Image src="/star.png" alt="star" width={12} height={12} />
-            <span>{movie.vote_average.toFixed(1)}</span>
+           <span>{(movie.vote_average ?? 0).toFixed(1)}</span>
           </div>
         </div>
 
@@ -115,26 +115,32 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
         
       </motion.div>
 
-      {/* Trailer hargdats*/}
-      {trailerUrl && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 p-4">
-          {/* Close Button */}
-          <button
-            onClick={closeTrailer}
-            className="absolute top-4 right-4 text-white text-2xl p-2 hover:text-red-400"
-          >
-            <IoClose />
-          </button>
-          <iframe
-            width="800"
-            height="450"
-            src={trailerUrl}
-            title={movie.title}
-            allowFullScreen
-            className="rounded shadow-lg"
-          ></iframe>
-        </div>
-      )}
+     {/* Trailer hargdats */}
+{trailerUrl && (
+  <div className="w-full fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+    
+    {/* Close Button */}
+    <button
+      onClick={(e) => {
+        e.stopPropagation();
+        closeTrailer();
+      }}
+      className="absolute top-4 right-4 text-white text-3xl p-2 hover:text-red-400 drop-shadow-lg"
+    >
+      <IoClose />
+    </button>
+
+    {/* Bichleg, trailer */}
+    <iframe
+      width="800"
+      height="450"
+      src={trailerUrl}
+      title={movie.title}
+      allowFullScreen
+      className="rounded-xl shadow-2xl border-2 border-white/10"
+    ></iframe>
+  </div>
+)}
     </>
   );
 };

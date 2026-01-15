@@ -4,7 +4,7 @@ import Same from "@/app/components/Same"
 import { Button } from "@/components/ui/button";
 import { log } from "console";
 
-export type Movie={
+export  type Movie={
   id: number;
     title: string;
     poster_path: string;
@@ -45,7 +45,7 @@ export const fetchMovieById = async (id: string) => {
       <div className="flex justify-around">
           <p className="mt-2 font-semibold">{movie.release_date}</p>
          <div>
-        <p className="mt-2 font-semibold">⭐ {movie.vote_average.toFixed(1)}</p>
+        {/* <p className="mt-2 font-semibold">⭐ {movie.vote_average.toFixed(1)}</p> */}
        </div>
     </div>
 <div className="flex gap-8 justify-center">
