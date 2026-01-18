@@ -71,24 +71,36 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
   return (
     <>
       {/* Motion Card */}
-      <motion.div
-        whileHover={{ scale: 1.05 }}
-        className="relative w-60 rounded-xl overflow-hidden shadow-lg bg-gray-100 dark:bg-gray-800 transition-colors"
-        transition={{ duration: 0.25 }}
-      >
+     <motion.div
+  whileHover={{ scale: 1.05 }}
+  transition={{ duration: 0.25 }}
+  className="
+    relative
+    w-full        /* 📱 mobile */
+    sm:w-48
+    md:w-56
+    lg:w-60
+    rounded-xl
+    overflow-hidden
+    shadow-lg
+    bg-gray-100 dark:bg-gray-800
+  "
+>
+
         {/* Movie poster*/}
         <Link href={`/movie/${movie.id}`}>
-          <Image
-            src={
-              movie.poster_path
-                ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-                : "/no-image.png"
-            }
-            alt={movie.title}
-            width={240}
-            height={360}
-            className="rounded-t-xl object-cover hover:opacity-50"
-          />
+        <div className="relative aspect-[2/3] w-full">
+  <Image
+    src={
+      movie.poster_path
+        ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+        : "/no-image.png"
+    }
+    alt={movie.title}
+    fill
+    className="object-cover hover:opacity-50 transition"
+  />
+</div>
         </Link>
         <div className="p-3">
           <div className="text-sm font-semibold line-clamp-1 text-gray-800 dark:text-gray-200">
@@ -101,10 +113,19 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
         </div>
 
         {/* Trailer Button */}
-        <button
-          onClick={handleTrailerClick}
-          className="w-full bg-gray-500 hover:bg-red-600 text-white px-2 py-2 text-sm rounded-b-md transition-colors"
-        >
+       <button
+  onClick={handleTrailerClick}
+  className="
+    w-full
+    bg-gray-500 hover:bg-red-600
+    text-white
+    px-2
+    py-2
+    text-xs sm:text-sm
+    rounded-b-md
+    transition-colors
+  "
+>
           {loadingTrailer ? "Loading..." : "Watch Trailer"}
         </button>
 
@@ -131,14 +152,19 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
     </button>
 
     {/* Bichleg, trailer */}
-    <iframe
-      width="800"
-      height="450"
-      src={trailerUrl}
-      title={movie.title}
-      allowFullScreen
-      className="rounded-xl shadow-2xl border-2 border-white/10"
-    ></iframe>
+   <iframe
+  src={trailerUrl}
+  title={movie.title}
+  allowFullScreen
+  className="
+    w-full
+    max-w-4xl
+    aspect-video
+    rounded-xl
+    shadow-2xl
+    border border-white/10
+  "
+></iframe>
   </div>
 )}
     </>
