@@ -1,10 +1,8 @@
 import { MovieCard } from "@/app/components/MovieCard";
 import { fetchfromMovieDb} from "@/app/components/Popular";
-// import { fetchfromTopRatedMovieDB} from "@/app/components/Toprated";
-// import { fetchfromUpcomingMovieDB } from "@/app/components/Upcoming";
-// import {fetchSameMoviesDB} from "@/app/components/Same";
+import { fetchfromTopRatedMovieDB} from "@/app/components/Toprated";
+import { fetchfromUpcomingMovieDB } from "@/app/components/Upcoming";
 import { Movie } from "@/app/page";
-// import {fetchfromMovieResultsDb} from "@/app/components/MovieResults";
 
 export default async function Page ({
     params,
