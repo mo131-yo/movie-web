@@ -1,117 +1,47 @@
-// "use client"
-// import Image from "next/navigation";
+// import React from 'react';
+// import Image from 'next/image';
 // import Link from "next/link";
-// import {useRouter} from "next/navigation";
+// import { Button } from "@/components/ui/button";
 
-// export type Movie={
+// export type Movie = {
 //   id: number;
-//     title: string;
-//     poster_path: string;
-//     vote_average: number;
-//     backdrop_path:string;
-//     overview: string;
-// }
+//   title: string;
+//   poster_path: string;
+//   vote_average: number;
+//   backdrop_path: string;
+//   overview: string;
+//   release_date :string
+// };
+// type Props = {
+//   keyword: string;
+//   results: Movie[];
+//   onClose: () => void;
+// };
 
-// type Props= {
-//     word : string;
-//     results : Movie[];
-//     onClose: ()=> void;
-// }
-// export const ResultsMovie = ({ word , results, onClose}: Props)=>{
-//     if(!word) return null;
-//     const router = useRouter();
-//     return(
-//         <div>
-//             <div>
-//                 {results.slice(0,5).map((movie)=>(
-//                     <div key={movie.id} onClick={()=>{(router.push(`/movie/${movie.id}`); onClose();}} className="flex justify-center ">
-//                     <div className="flex items-center gap-3">
-//                         {movie.poster_path && (
-//                         <div>
-//                             <Image 
-//                             src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
-//                                         alt={movie.title}
-//                                         width={80}
-//                                         height={320}
-//                                         className="w-full"
-//                                       />
-//                         </div>
-//                     }
-//                     </div>
-//                     </div>
-//                 ))}
+// export const SearchPage = ({ keyword, results, onClose }: Props) => {
+//   if (!keyword) return null;
+
+//   return (
+//     <div className="absolute z-50 bg-white rounded-xl shadow-lg mt-2 p-4 space-y-3">
+//       {results.slice(0, 5).map((movie) => {
+//         return (
+//           <div
+//             key={movie.id} onClick={onClose} className="flex gap-3 cursor-pointer  hover:bg-gray-100  rounded-lg p-2"> {movie.poster_path && (
+//               <Image src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`} alt={movie.title} width={60} height={90} className="rounded"/>
+//             )}
+//             <div className="flex flex-col justify-center flex-1">
+//               <span className="font-medium">{movie.title}</span>
+//               <span className="text-sm text-gray-500">({movie.release_date?.split("-")[0]} )</span>
 //             </div>
-//         </div>
-//     )
+//           <Link href={`/movie/${movie.id}`} onClick={onClose}>
+//             <Button className="w-30 h-9 bg-amber-200">View</Button>
+//           </Link>
+//           </div>
+//         );
+//       })}
+//        <Link href={`/results/${results.id}`} onClick={onClose}>
+//             <Button className="w-30 h-9 bg-amber-200">Results</Button>
+//           </Link>
+//     </div>
+//   );
 // }
-
-
-"use client";
-
-import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-
-export type Movie = {
-  id: number;
-  title: string;
-  poster_path: string;
-  vote_average: number;
-  backdrop_path: string;
-  overview: string;
-};
-
-type Props = {
-  word: string;
-  results: Movie[];
-  onClose: () => void;
-};
-
-export const ResultsMovie = ({ word, results, onClose }: Props) => {
-  const router = useRouter();
-
-  if (!word || results.length === 0) return null;
-
-  return (
-    <div className="absolute z-50 bg-white rounded-xl shadow-lg mt-2 w-full p-3 space-y-2">
-      {results.slice(0, 5).map((movie) => (
-        <div
-          key={movie.id}
-          onClick={() => {
-            router.push(`/movie/${movie.id}`)
-            onClose();
-          }}
-          className="flex gap-3 items-center cursor-pointer hover:bg-gray-100 p-2 rounded-lg"
-        >
-          {movie.poster_path && (
-            <Image
-              src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
-              alt={movie.title}
-              width={60}
-              height={90}
-              className="rounded"
-            />
-          )}
-
-          <div className="flex flex-col">
-            <span className="font-medium">{movie.title}</span>
-            {movie.vote_average !== undefined && (
-              <span className="text-sm text-gray-500">
-                ⭐ {movie.vote_average.toFixed(1)}
-              </span>
-            )}
-          </div>
-        </div>
-      ))}
-
-      {/* 🔽 SEE ALL RESULTS */}
-      <Link
-        href={`/results/${encodeURIComponent(word)}`}
-        onClick={onClose}
-        className="block text-center bg-amber-200 hover:bg-amber-300 py-2 rounded-lg font-medium"
-      >
-        See all results for "{word}"
-      </Link>
-    </div>
-  );
-};

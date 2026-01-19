@@ -93,7 +93,7 @@ type Props = {
   onClose: () => void;
 };
 
-export const Genre = ({ keyword, results, onClose }: Props) => {
+export const SearchGenre = ({ keyword, results, onClose }: Props) => {
   if (!keyword) return null;
 
   return (

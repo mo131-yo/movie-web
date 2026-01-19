@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import Popular from "./components/Popular";
 import Upcoming from "./components/Upcoming";
-import Toprated from "./components/Toprated";
+import {Toprated} from "./components/Toprated";
 import { Scroll } from "./components/Scroll";
 import Link from "next/link";
 import { HiArrowSmallRight } from "react-icons/hi2";

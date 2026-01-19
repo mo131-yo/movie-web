@@ -3,6 +3,9 @@ import Link from "next/link";
 import Same from "@/app/components/Same"
 import { Button } from "@/components/ui/button";
 import { log } from "console";
+import Comment from "@/app/components/Comment";
+import MovieCrew from "@/app/components/MovieCrew";
+import { IdCard } from "lucide-react";
 
 export  type Movie={
   id: number;
@@ -73,10 +76,12 @@ export const fetchMovieById = async (id: string) => {
 />
 </div>
       <p className="mt-5 text-gray-700">{movie.overview}</p>
+      <MovieCrew movieId={id}/>
     <Link href={`/category/same/${id}`}>
      <Button className="bg-amber-300 w-20 h-auto">Dar</Button>
    </Link>
    <Same movieId={id} />
+   <Comment movieId={id}/>
     </div>
   );
 };
