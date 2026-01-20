@@ -1,102 +1,125 @@
-// "use client"
-// import { Link } from "lucide-react";
-// import { useState } from "react";
-// type Props = {
-//   params: Promise<{ id: string }>;
-// };
-// type Genre = {
-//   id: number;
-//   name: string;
-// };
-
-// export const MovieGenre: any({ params }: Props) {
-//   const { id } = await params;
-
-//   const res = await fetch(
-//     `https://api.themoviedb.org/3/discover/movie?with_genres=${id}&language=en-US`,
-//     {
-//       headers: {
-//         Authorization: `Bearer ${process.env.NEXT_API_TOKEN}`,
-//       },
-//     }
-//   );
-//   const data = await res.json();
-//   const movies = data.results;
-//     const [genres, setGenres] = useState<Genre[]>([]);
-//   return (
-//     <div className="p-10">
-//        <div className="flex flex-wrap gap-3">
-//               {genres.map((genre) => (
-//                 <Link
-//                   key={genre.id}
-//                 href={`/genre/${genre.id}`}
-//                   className="px-4 py-1.5 text-sm border rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition"
-//                 >
-//                   {genre.name}
-//                 </Link>
-//               ))}
-//             </div>
-//     </div>
-//   );
-// }
-
+"use client";
 
 import { MovieCard } from "@/app/components/MovieCard";
-import Link from "next/link"; // lucide-react биш next/link ашиглана
+import React, { useState, useEffect } from "react";
+import { useRouter, useParams } from "next/navigation";
 
-type Props = {
-  params: Promise<{ id: string }>;
+type Genre = {
+  id: number;
+  name: string;
 };
 
-// Төрлүүдийн жагсаалтыг авах (Дээд талын цэсэнд харуулахын тулд)
-async function getGenres() {
-  const res = await fetch("https://api.themoviedb.org/3/genre/movie/list?language=en", {
-    headers: { Authorization: `Bearer ${process.env.NEXT_API_TOKEN}` },
-  });
-  const data = await res.json();
-  return data.genres;
-}
+export default function MovieGenrePage() {
+  const router = useRouter();
+  const params = useParams();
+  
+  // params.id нь "28,12" эсвэл "28%7C12" (URL encoded |) байж болно
+  const idFromUrl = params?.id ? decodeURIComponent(params.id as string) : "all";
 
-// Тухайн ID-аар кинонуудыг татах
-async function getMoviesByGenre(id: string) {
-  const res = await fetch(
-    `https://api.themoviedb.org/3/discover/movie?with_genres=${id}&language=mn-MN`, // хэлээ тохируулж болно
-    {
-      headers: { Authorization: `Bearer ${process.env.NEXT_API_TOKEN}` },
-      next: { revalidate: 3600 } // 1 цаг кэшлэнэ
+  const [genres, setGenres] = useState<Genre[]>([]);
+  const [movies, setMovies] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // 1. Бүх төрлийг татах
+  useEffect(() => {
+    const fetchGenres = async () => {
+      try {
+        const res = await fetch("https://api.themoviedb.org/3/genre/movie/list?language=en", {
+          headers: {
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_API_KEY}`,
+          },
+        });
+        const data = await res.json();
+        setGenres(data.genres || []);
+      } catch (e) { console.error(e); }
+    };
+    fetchGenres();
+  }, []);
+
+  // 2. Кинонуудыг татах
+  useEffect(() => {
+    const fetchMovies = async () => {
+      setLoading(true);
+      try {
+        // Хэрэв олон сонголттой бол таслалыг | болгож солино (Ингэснээр илүү олон кино гарна)
+        // Хэрэв та заавал хоёуланг нь агуулсан кино харах бол .replace-ийг устгаж болно
+        const queryId = idFromUrl === "all" ? "" : idFromUrl.replace(/,/g, "|");
+        
+        const res = await fetch(
+          `https://api.themoviedb.org/3/discover/movie?with_genres=${queryId}&language=mn-MN&sort_by=popularity.desc`,
+          {
+            headers: {
+              Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_API_KEY}`,
+            },
+          }
+        );
+        const data = await res.json();
+        setMovies(data.results || []);
+      } catch (error) {
+        console.error("Fetch movies error:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMovies();
+  }, [idFromUrl]); // idFromUrl өөрчлөгдөх бүрт ажиллана
+
+  const handleToggleGenre = (genreId: number) => {
+    // URL-аас одоогийн ID-нуудыг массив болгож авах
+    let selectedIds = idFromUrl !== "all" 
+      ? idFromUrl.split(/[|,]/) // Таслал эсвэл | байгаа эсэхийг шалгаж салгана
+      : [];
+
+    const genreIdStr = String(genreId);
+    
+    if (selectedIds.includes(genreIdStr)) {
+      selectedIds = selectedIds.filter((id) => id !== genreIdStr);
+    } else {
+      selectedIds = [...selectedIds, genreIdStr];
     }
-  );
-  const data = await res.json();
-  return data.results;
-}
 
-export default async function MovieGenrePage({ params }: Props) {
-  // 1. Параметрийг await хийнэ
-  const { id } = await params;
-
-  // 2. Өгөгдлүүдээ зэрэг татаж авна
-  const [genres, movies] = await Promise.all([
-    getGenres(),
-    getMoviesByGenre(id)
-  ]);
+    if (selectedIds.length > 0) {
+      // URL руу дамжуулахдаа таслалаар холбоно
+      router.push(`/genre/${selectedIds.join(",")}`);
+    } else {
+      router.push(`/genre/all`);
+    }
+  };
 
   return (
-    <div className="p-10">
+    <div className="p-6 lg:p-10">
       <div className="flex flex-wrap gap-3 mb-10">
-        {genres.map((genre: any) => (
-          <Link
-            key={genre.id}
-            href={`/genre/${genre.id}`}
-            className={`px-4 py-1.5 text-sm border rounded-full transition ${
-              id === String(genre.id) 
-              ? "bg-black text-white border-black" 
-              : "hover:bg-gray-100 dark:hover:bg-gray-800"
-            }`}
+        {genres.map((genre) => {
+          // Идэвхтэй байгааг шалгах
+          const isSelected = idFromUrl !== "all" && idFromUrl.split(/[|,]/).includes(String(genre.id));
+          
+          return (
+            <button
+              key={genre.id}
+              onClick={() => handleToggleGenre(genre.id)}
+              className={`px-4 py-1.5 text-sm border rounded-full transition-all duration-300 ${
+                isSelected
+                  ? "bg-black text-white border-black shadow-md scale-105"
+                  : "bg-white text-gray-700 border-gray-200 hover:border-black"
+              }`}
+            >
+              {genre.name}
+            </button>
+          );
+        })}
+        
+        {idFromUrl !== "all" && (
+          <button 
+            onClick={() => router.push("/genre/all")}
+            className="text-sm text-red-500 font-medium hover:underline px-2"
           >
-            {genre.name}
-          </Link>
-        ))}
+            Reset
+          </button>
+        )}
       </div>
+
+      <hr className="mb-10 opacity-10" />
     </div>
   );
 }

@@ -5,7 +5,6 @@ import {Toprated} from "./components/Toprated";
 import { Scroll } from "./components/Scroll";
 import Link from "next/link";
 import { HiArrowSmallRight } from "react-icons/hi2";
-import Price from "./components/MostPrice";
 export type Movie = {
   id: number;
   title: string;

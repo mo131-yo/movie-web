@@ -6,7 +6,8 @@ import { log } from "console";
 import MovieCrew from "@/app/components/MovieCrew";
 import { IdCard } from "lucide-react";
 import { Key, ReactElement, JSXElementConstructor, ReactNode, ReactPortal } from "react";
-import TrailerModal from "@/app/components/Trailer";
+import {TrailerModal} from "@/app/components/Trailer";
+import TrailerSection from "@/app/components/TrailerSection";
 
 export type Movie={
   id: number;
@@ -19,6 +20,7 @@ export type Movie={
     genres: Genre[];
     vote_count: number;
   popularity: number;
+  runtime: number;
 }
 type Params ={
   params: Promise<{
@@ -36,6 +38,11 @@ type Genre = {
   name: string;
 };
 
+const formatTime = (minutes: number) => {
+  const h = Math.floor(minutes / 60);
+  const m = minutes % 60;
+  return `${h}h ${m}m`;
+};
 export const fetchMovieById = async (id: string) => {
   const res = await fetch(
     `https://api.themoviedb.org/3/movie/${id}`,
@@ -58,8 +65,10 @@ export const fetchMovieById = async (id: string) => {
     <div className="px-20 py-10 flex flex-col ">
       <h1 className="text-3xl font-bold mb-5">{movie.title}</h1>
       <p className="mt-2 font-semibold">{movie.release_date}</p>
-      <p className="mt-2 font-semibold">{movie.release_date}</p>
-      <div className="flex flex-col justify-around">
+      <p className="mt-2 font-semibold">{movie.runtime}</p>
+      <span className="bg-gray-200 px-2 py-1 rounded text-xs">{formatTime(movie.runtime)}</span>
+     <TrailerSection movieId={movie.id} title={movie.title} />
+      <div className="flex flex-col justify-around">  
         <p className="text-3 font-500 h-4 text-black">Rating</p>
          <div className="flex">
             {/* <img src="Starstar.png" alt="Starstar" className="w-7 h-12" /> */}
