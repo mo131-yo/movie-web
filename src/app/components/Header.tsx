@@ -62,11 +62,10 @@
         </motion.div>
       </div>
       <SearchGenre/>
-     {/* genre */}
       <div className="w-full flex justify-center relative gap-3" >
         {/* {Search heseg} */}
         <div className="w-full relative">
-          <input type="text" className="w-full border p-2 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white" placeholder="Хайх" onChange={handleChange} value={searchValue}/>
+          <input type="text" className="w-94.75 border p-2 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white" placeholder="Хайх" onChange={handleChange} value={searchValue}/>
           {isLoading && <Loader className="absolute right-2 top-2" />}
           <SearchResult keyword={searchValue} results={results} onClose={() => setSearchValue("")}/>
         </div>

@@ -1,5 +1,7 @@
 import React from "react";
 import { MovieCard } from "@/app/components/MovieCard";
+import MovieGenrePage from "../components/MovieGenrePage";
+import {DynamicPagination} from "@/app/components/DynamicPagination"
 
 type Movie = {
   id: number;
@@ -14,6 +16,11 @@ type SearchPageProps = {
     page?: string;
   };
 };
+type Params ={
+  params: Promise<{
+    id: string;
+  }>;
+}
 
 const fetchResults = async (query: string, page = 1) => {
   const res = await fetch(
@@ -27,12 +34,11 @@ const fetchResults = async (query: string, page = 1) => {
     }
   );
 
-  if (!res.ok) throw new Error("Failed to fetch search results");
-
   return res.json();
 };
 
 const SearchPage = async ({ searchParams }: SearchPageProps) => {
+    const id  = searchParams;
   const params = await searchParams;
   const query = params.query;
   const page = Number(params.page ?? 1);
@@ -51,13 +57,17 @@ const SearchPage = async ({ searchParams }: SearchPageProps) => {
 
     return (
       <div className="px-6 lg:px-20 py-8">
+        <DynamicPagination totalPage={0} />
         <h2 className="text-2xl font-semibold mb-6">
           Search results for “{query}”
         </h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+        <div className="flex">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
           {movies.map((movie) => (
             <MovieCard key={movie.id} movie={movie} />
           ))}
+        </div>
+        <MovieGenrePage params={Promise.resolve({ id })} />
         </div>
       </div>
     );

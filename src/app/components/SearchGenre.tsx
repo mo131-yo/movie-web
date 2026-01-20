@@ -3,6 +3,8 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { Badge } from "../ui/Badge";
+import { SlArrowDown } from "react-icons/sl";
 
 type Genre = {
   id: number;
@@ -35,17 +37,17 @@ export default function GenrePage() {
   useEffect(() => {
     getGenres();
   }, []);
-
+    const variantType: "default" | "outline" | "secondary" | "destructive" =
+      "outline";
   return (
     <div className="relative px-6 lg:px-20 py-8">
-      <button 
-        onClick={() => setOpen(!open)}
-        className="bg-black text-white px-4 py-2 rounded-lg mb-4"
-      >
-        {open ? "Close Genres" : "Show Genres"}
-      </button>
+        <Badge onClick={() => setOpen(!open)} variant={variantType}
+        className="shadow text-black text-sm font-medium px-4 py-2 mt-4 rounded-lg mb-4 flex gap-2">
+          <SlArrowDown />
+          Genre
+        </Badge>
       {open && (
-        <div className="absolute top-24 left-6 lg:left-20 mt-2 w-[420px] bg-white border rounded-xl shadow-lg p-4 z-50 dark:bg-gray-900">
+        <div className="absolute top-24 left-6 lg:left-20 mt-2 w-105 bg-white border rounded-xl shadow-lg p-4 z-50 dark:bg-gray-900">
           {loading ? (
             <p>Loading...</p>
           ) : (
@@ -53,7 +55,7 @@ export default function GenrePage() {
               {genres.map((genre) => (
                 <Link
                   key={genre.id}
-                  href={`/genre/${genre.id}`}
+                href={`/genre/${genre.id}`}
                   className="px-4 py-1.5 text-sm border rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition"
                 >
                   {genre.name}

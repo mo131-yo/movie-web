@@ -89,7 +89,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
 
         {/* Movie poster*/}
         <Link href={`/movie/${movie.id}`}>
-        <div className="relative aspect-[2/3] w-full">
+        <div className="relative aspect-2/3 w-full">
   <Image
     src={
       movie.poster_path
@@ -107,7 +107,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
             {movie.title}
           </div>
           <div className="flex items-center gap-1 text-sm mt-1 text-gray-600 dark:text-gray-300">
-            <Image src="/star.png" alt="star" width={12} height={12} />
+            {/* <Image src="/star.png" alt="star" width={12} height={12} /> */}
            <span>{(movie.vote_average ?? 0).toFixed(1)}</span>
           </div>
         </div>

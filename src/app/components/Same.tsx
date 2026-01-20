@@ -1,71 +1,3 @@
-
-// import React from "react";
-// import { MovieCard } from "./MovieCard";
-
-// export type Movie = {
-//   id: number;
-//   title: string;
-//   poster_path: string;
-//   vote_average: number;
-// };
-
-// type SameProps = {
-//   movieId: string;
-// };
-
-// export const fetchSameMoviesDB = async (
-//   movieId: string
-// ): Promise<Movie[]> => {
-//   const response = await fetch(
-//     `https://api.themoviedb.org/3/movie/${movieId}/similar?language=en-US&page=1`,
-//     {
-//       headers: {
-//         Authorization: `Bearer ${process.env.NEXT_API_TOKEN}`,
-//         "Content-Type": "application/json",
-//       },
-//       next: { revalidate: 60 },
-//     }
-//   );
-
-//   if (!response.ok) {
-//     throw new Error("Failed to fetch similar movies");
-//   }
-//   if (!response.ok) {
-//     throw new Error("Failed to fetch similar movies");
-//   }
-
-//   const data = await response.json();
-//   return data.results;
-// };
-
-// const Same = async ({ movieId }: SameProps) => {
-//   const sameMovies = await fetchSameMoviesDB(movieId);
-
-//   if (!sameMovies || sameMovies.length === 0) {
-//     return null;
-//   }
-//   if (!sameMovies || sameMovies.length === 0) {
-//     return null;
-//   }
-
-//   return (
-//     <div>
-//       <h3 className="font-semibold text-2xl text-black px-20 pb-5">
-//         More like this
-//       </h3>
-
-//       <div className="grid grid-cols-5 px-20 w-full mb-8 gap-8">
-//         {sameMovies.slice(0, 5).map((movie) => (
-//           <MovieCard key={movie.id} movie={movie} />
-//         ))}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Same;
-
-
 import React from "react";
 import { MovieCard } from "./MovieCard";
 
@@ -111,10 +43,6 @@ const Same = async ({ movieId }: SameProps) => {
 
   return (
     <section className="mb-10">
-      <h3 className="font-semibold text-xl md:text-2xl text-black px-6 md:px-12 lg:px-20 pb-5">
-        More like this
-      </h3>
-
       <div
         className="
           grid
@@ -122,12 +50,9 @@ const Same = async ({ movieId }: SameProps) => {
           sm:grid-cols-3
           md:grid-cols-4
           lg:grid-cols-5
-          gap-4
           sm:gap-6
           lg:gap-8
           px-6
-          md:px-12
-          lg:px-20
         "
       >
         {sameMovies.slice(0, 5).map((movie) => (

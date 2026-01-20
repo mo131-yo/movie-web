@@ -71,7 +71,7 @@ export const SearchResult = ({ keyword, results, onClose }: Props) => {
   if (!keyword || results.length === 0) return null;
 
   return (
-    <div className="absolute z-50 w-full max-w-xl bg-white dark:bg-gray-900 rounded-xl shadow-lg mt-2 p-3 space-y-2">
+    <div className="absolute z-50 w-94.75 bg-white dark:bg-gray-900 rounded-xl shadow-lg mt-2 p-3 space-y-2">
       {results.slice(0, 5).map((movie) => (
         <Link
           key={movie.id}
@@ -88,7 +88,7 @@ export const SearchResult = ({ keyword, results, onClose }: Props) => {
               className="rounded"
             />
           ) : (
-            <div className="w-[50px] h-[75px] bg-gray-300 rounded" />
+            <div className="w-12.5 h-18.75 bg-gray-300 rounded" />
           )}
 
           <div className="flex-1">
@@ -98,8 +98,8 @@ export const SearchResult = ({ keyword, results, onClose }: Props) => {
             </p>
           </div>
 
-          <Button size="sm" variant="secondary">
-            View
+          <Button size="sm" variant="secondary" className="hover:bg-amber-200">
+            See more
           </Button>
         </Link>
       ))}
@@ -107,9 +107,9 @@ export const SearchResult = ({ keyword, results, onClose }: Props) => {
       {/* See all results */}
       <Link href={`/results?query=${keyword}`}
         onClick={onClose}
-        className="block text-center text-sm font-medium text-indigo-600 hover:underline pt-2"
+        className="block text-base font-medium text-indigo-600 hover:underline pt-2"
       >
-        See all results →
+        See all results for "{keyword}"
       </Link>
     </div>
   );

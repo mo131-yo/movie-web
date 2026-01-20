@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { MovieCard } from "@/app/components/MovieCard";
-import {DynamicPagination} from "@/app/components/DynamicPagination"
+import { log } from 'console';
 
 export type Movie = {
   id: number;
@@ -13,9 +13,9 @@ export type Movie = {
 };
 
 
-export const fetchSearchMovies = async (id: string) => {
+export const fetchMostprice = async (id: string) => {
   const res = await fetch(
-    `https://api.themoviedb.org/3/movie/${id}/similar?language=en-US&page=1`,
+    `https://api.themoviedb.org/3/discover/movie?api_key=YOUR_API_KEY&sort_by=revenue.desc&language=en-US&page=1`,
     {
       method: "GET",
       headers: {
@@ -30,30 +30,29 @@ export const fetchSearchMovies = async (id: string) => {
   }
 
   const data = await res.json();
+  console.log(data);
   return data.results;
+  
 };
 
-const Results = async ({ params }: { params: { id: string } }) => {
+const Price = async ({ params }: { params: { id: string } }) => {
   const resolvedParams = await params;
-  const movies: Movie[] = await fetchSearchMovies(resolvedParams.id);
+  const movies: Movie[] = await fetchMostprice(resolvedParams.id);
 
   if (!movies || movies.length === 0) {
-    return <div className="p-20 text-center">Tiim kino baikhgui</div>;
+    return <div className="p-20 text-center">Илэрц олдсонгүй.</div>;
   }
 
   return (
     <div className='pb-20'>
-      <h3 className="font-semibold text-2xl text-black pr-20 pl-20 pb-5">More Like This</h3>
+      <h3 className="font-semibold text-2xl text-black pr-20 pl-20 pb-5">Most Money Earned</h3>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 pr-20 pl-20 gap-8">
-        {movies.map((movie) => (
+        {movies.slice(0, 10).map((movie) => (
           <MovieCard movie={movie} key={movie.id} />
         ))}
-      </div>
-      <div className='pt-10'>
-        <DynamicPagination totalPage={10}/>
       </div>
     </div>
   );
 };
 
-export default Results;
+export default Price;

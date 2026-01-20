@@ -3,10 +3,10 @@ import Link from "next/link";
 import Same from "@/app/components/Same"
 import { Button } from "@/components/ui/button";
 import { log } from "console";
-import Comment from "@/app/components/Comment";
 import MovieCrew from "@/app/components/MovieCrew";
 import { IdCard } from "lucide-react";
 import { Key, ReactElement, JSXElementConstructor, ReactNode, ReactPortal } from "react";
+import TrailerModal from "@/app/components/Trailer";
 
 export type Movie={
   id: number;
@@ -58,10 +58,11 @@ export const fetchMovieById = async (id: string) => {
     <div className="px-20 py-10 flex flex-col ">
       <h1 className="text-3xl font-bold mb-5">{movie.title}</h1>
       <p className="mt-2 font-semibold">{movie.release_date}</p>
+      <p className="mt-2 font-semibold">{movie.release_date}</p>
       <div className="flex flex-col justify-around">
         <p className="text-3 font-500 h-4 text-black">Rating</p>
          <div className="flex">
-            <img src="Starstar.png" className="w-7 h-12" />
+            {/* <img src="Starstar.png" alt="Starstar" className="w-7 h-12" /> */}
             <div className="flex flex-col">
               <p className="mt-2 font-semibold">{movie.vote_average.toFixed(1)} <span className="text-gray-400">/10</span></p>
               <p className="mt-2 font-semibold">{movie.vote_count}</p>
@@ -108,11 +109,15 @@ export const fetchMovieById = async (id: string) => {
 )}
       <p className="mt-5 text-gray-700">{movie.overview}</p>
       <MovieCrew movieId={id}/>
+     <div className="flex justify-between">
+       <h3 className="font-semibold text-xl md:text-2xl text-black lg:px-10 md:px-12 pb-5">
+        More like this
+      </h3>
     <Link href={`/category/same/${id}`}>
      <Button className="bg-amber-300 w-20 h-auto">See more</Button>
    </Link>
+     </div>
    <Same movieId={id} />
-   <Comment movieId={id}/>
     </div>
   );
 };
