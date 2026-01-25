@@ -1,264 +1,254 @@
-import Image from "next/image";
-import Link from "next/link";
-import Same from "@/app/components/Same"
-import { Button } from "@/components/ui/button";
-import { log } from "console";
-import MovieCrew from "@/app/components/MovieCrew";
-import { IdCard } from "lucide-react";
-import { Key, ReactElement, JSXElementConstructor, ReactNode, ReactPortal } from "react";
-import {TrailerModal} from "@/app/components/TrailerModal";
-import TrailerSection from "@/app/components/TrailerSection";
-import { FaStar } from "react-icons/fa";
+      import Image from "next/image";
+      import Link from "next/link";
+      import Same from "@/app/components/Same"
+      import { Button } from "@/components/ui/button";
+      import { log } from "console";
+      import MovieCrew from "@/app/components/MovieCrew";
+      import { IdCard } from "lucide-react";
+      import { Key, ReactElement, JSXElementConstructor, ReactNode, ReactPortal } from "react";
+      import {TrailerModal} from "@/app/components/TrailerModal";
+      import TrailerSection from "@/app/components/TrailerSection";
+      import { FaStar } from "react-icons/fa";
 
-export type Movie={
-  id: number;
-    title: string;
-    poster_path: string;
-    vote_average: number;
-    backdrop_path:string;
-    overview: string;
-    release_date: number;
-    genres: Genre[];
-    vote_count: number;
-  popularity: number;
-  runtime: number;
-}
-type Params ={
-  params: Promise<{
-    id: string;
-  }>;
-}
+      export type Movie={
+        id: number;
+          title: string;
+          poster_path: string;
+          vote_average: number;
+          backdrop_path:string;
+          overview: string;
+          release_date: number;
+          genres: Genre[];
+          vote_count: number;
+        popularity: number;
+        runtime: number;
+      }
+      type Params ={
+        params: Promise<{
+          id: string;
+        }>;
+      }
 
-type Props = {
-  params: {
-    id: string;
-  };
-};
-type Genre = {
-  id: number;
-  name: string;
-};
+      type Props = {
+        params: {
+          id: string;
+        };
+      };
+      type Genre = {
+        id: number;
+        name: string;
+      };
 
-const formatTime = (minutes: number) => {
-  const h = Math.floor(minutes / 60);
-  const m = minutes % 60;
-  return `${h}h ${m}m`;
-};
-export const fetchMovieById = async (id: string) => {
-  const res = await fetch(
-    `https://api.themoviedb.org/3/movie/${id}`,
-    {
-       method: "GET",
-      headers: {
-         "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.NEXT_API_TOKEN}`,
-      },
-    }
-  );
-  return res.json();
-};
+      const formatTime = (minutes: number) => {
+        const h = Math.floor(minutes / 60);
+        const m = minutes % 60;
+        return `${h}h ${m}m`;
+      };
+      export const fetchMovieById = async (id: string) => {
+        const res = await fetch(
+          `https://api.themoviedb.org/3/movie/${id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${process.env.NEXT_API_TOKEN}`,
+            },
+          }
+        );
+        return res.json();
+      };
 
-  export default async function MoviePage({ params }: Props) {
-  const { id } = await params
-  const movie = await fetchMovieById(id);
+        export default async function MoviePage({ params }: Props) {
+        const { id } = await params
+        const movie = await fetchMovieById(id);
 
-  return (
-//     <div className="px-20 py-10 flex flex-col md:px-0">
-//       <h1 className="text-3xl font-bold mb-5 sm:px-10">{movie.title}</h1>
-//     <div className="flex justify-between md:px-10">
-//       <div className="flex w-58 mt-2 font-semibold gap-4">
-//         <p>{movie.release_date}</p>
-//         <p> PG</p>
-//         <p>{formatTime(movie.runtime)}</p>
-//      </div>
-//       <div className="flex flex-col justify-around">  
-//         <p className="text-3 font-500 h-4 text-black">Rating</p>
-//          <div className="flex">
-//             <FaStar style={{color:"yellow", width:"24px", height:"24px" ,position:"relative" , top:"8px", right:"5px" }}/>
-//             <div className="flex flex-col">
-//               <p className="font-semibold text-lg">{movie.vote_average.toFixed(1)} <span className="text-gray-400">/10</span></p>
-//               <p className="font-semibold text-xs">{movie.vote_count}</p>
-//             </div>
-//          </div>
-//      </div>
-//     </div>
-//   <div className="flex gap-8 justify-center">
-//   <div className="md:px-10">
-//       <Image
-//       src={
-//         movie.poster_path
-//           ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-//           : "/no-image.png"
-//       }
-//       alt={`Poster of ${movie.title ?? "movie"}`}
-//       width={300}
-//       height={450}
-//       className="w-25 h-37 object-cover rounded-xl bg-gray-200 transition-transform duration-500 hover:scale-105"
-//     />
-//   </div>
-//   <div className="relative w-93.75 h-52.75 overflow-hidden rounded-lg ">
-//   <Image
-//     src={
-//       movie.poster_path
-//         ? `https://image.tmdb.org/t/p/original${movie.backdrop_path}`
-//         : "/no-image.png"
-//     }
-//     alt={`Poster of ${movie.title ?? "movie"}`}
-//     width={600}
-//     height={450}
-//     className="w-full h-full object-cover sm:w-auto"
-//   />
-//   <div className="absolute inset-0 flex items-end justify-baseline pl-10 pb-10  hover:bg-black/20 transition-colors">
-//     <TrailerSection movieId={movie.id} title={movie.title} />
-//     <p className="text-white text-lg font-semibold pb-2 pl-3 hover:text-gray-400 ">Play Trailer</p>
-//   </div>
-// </div>
-// </div>
-// {/* GENRES */}
-// {movie.genres?.length > 0 && (
-//   <div className="flex flex-wrap gap-2 mt-3 pl-10">
-//     {movie.genres.map((genre: { id: Key | null | undefined; name: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; }) => (
-//       <Link
-//         key={genre.id} href={`/genre/${genre.id}`} className="px-3 py-1 text-sm border rounded-full hover:bg-gray-100 transition dark:text-white dark:hover:text-black">
-//         {genre.name}
-//       </Link>
-//     ))}
-//   </div>
-// )}
-//       <p className="mt-5 text-gray-700">{movie.overview}</p>
-//       <MovieCrew movieId={id}/>
-//      <div className="flex justify-between pt-10 pb-8">
-//        <h3 className="font-semibold text-xl md:text-2xl text-black lg:px-10 md:px-12 pb-5 dark:text-white">More like this</h3>
-//         <Link href={`/category/same/${id}`}>
-//            <Button className="bg-amber-200 w-20 h-auto dark:bg-white dark:hover:bg-blue-900">See more</Button>
-//          </Link>
-//       </div>
-//    <Same movieId={id} />
-//     </div>
-
-<div className="px-4 sm:px-10 lg:px-20 py-6 sm:py-10 flex flex-col max-w-360 mx-auto">
-  
-  <div className="flex justify-between items-start mb-4">
-    <div className="flex flex-col">
-      <h1 className="text-2xl sm:text-3xl font-bold dark:text-white">{movie.title}</h1>
-      <div className="flex items-center font-medium gap-2 text-xs sm:text-sm text-gray-500 mt-1">
-        <p>{movie.release_date}</p>
-        <span>•</span>
-        <p>PG</p>
-        <span>•</span>
-        <p>{formatTime(movie.runtime)}</p>
-      </div>
+        return (
+        <div>
+          <div className="flex flex-row justify-around ">
+            <div className="flex flex-col">
+            <h1 className=" w-[211px] text-2xl sm:text-3xl font-bold dark:text-white">{movie.title}</h1>
+            <div className="flex items-center font-medium gap-2 text-xs sm:text-sm text-gray-500 mt-1">
+              <p>{movie.release_date}</p>
+              <span>•</span>
+              <p>PG</p>
+              <span>•</span>
+              <p>{formatTime(movie.runtime)}</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-1">
+            <FaStar className="text-yellow-400 w-5 h-5" />
+            <div className="flex flex-col">
+              <p className="font-bold text-sm sm:text-base dark:text-white">
+                {movie.vote_average.toFixed(1)}<span className="text-gray-400 font-normal">/10</span>
+              </p>
+              <p className="text-[10px] text-gray-400">{movie.vote_count}</p>
+            </div>
+          </div>
+          </div>
+          <div>
+{/* 
+<div className="flex flex-col sm:flex-row gap-6 lg:gap-10 p-4 lg:p-10 hidden lg:block">
+  <div className="mx-auto lg:mx-0">
+    <div className="relative w-25 sm:w-60 lg:w-72 aspect-[2/3] overflow-hidden rounded-2xl shadow-2xl">
+      <Image
+        src={
+          movie.poster_path
+            ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+            : "/no-image.png"
+        }
+        alt={movie.title}
+        fill
+        className="object-cover"
+        />
     </div>
+        </div>
 
-    <div className="flex items-center gap-1">
-      <FaStar className="text-yellow-400 w-5 h-5" />
-      <div className="flex flex-col">
-        <p className="font-bold text-sm sm:text-base dark:text-white">
-          {movie.vote_average.toFixed(1)}<span className="text-gray-400 font-normal">/10</span>
-        </p>
-        <p className="text-[10px] text-gray-400">37k</p>
+  <div className="flex-1 flex flex-col gap-4 hidden lg:block">
+    <div className="relative w-190 h-107 sm:h-90 lg:h-107 overflow-hidden rounded-2xl group">
+      <Image
+        src={
+          movie.backdrop_path
+            ? `https://image.tmdb.org/t/p/original${movie.backdrop_path}`
+            : "/no-image.png"
+        }
+        alt={movie.title}
+        fill
+        className="object-cover transition-transform duration-500 group-hover:scale-105"
+      />
+      <div className="absolute inset-0 flex items-end">
+        <div className="flex flex-col items-center gap-2 cursor-pointer">
+            <TrailerSection movieId={movie.id} title={movie.title} />
+          <span className="px-4 py-1 rounded-full text-sm font-medium">
+            Play Trailer
+          </span>
+        </div>
       </div>
     </div>
   </div>
-
-  {/* <div className="relative w-full aspect-video lg:w-full lg:h-125 overflow-hidden rounded-lg shadow-lg mb-6">
-     <div className="absolute ">
+</div> */}
+<div className="flex flex-col lg:flex-row gap-6 lg:gap-10 p-4 lg:p-10 w-full items-stretch">
+  
+  <div className="flex-shrink-0 w-full sm:w-64 lg:w-80">
+    <div className="relative aspect-[2/3] overflow-hidden hidden sm:block rounded-2xl shadow-2xl border-2 border-white/10">
       <Image
-        src={movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : "/no-image.png"}
+        src={
+          movie.poster_path
+            ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+            : "/no-image.png"
+        }
         alt={movie.title}
-        width={300}
-        height={450}
-        className="w-25 h-37 sm:w-60 sm:h-auto object-cover rounded-lg shadow-md "
+        fill
+        className="object-cover"
       />
     </div>
+  </div>
+
+  <div className="hidden sm:block sm:flex flex-1 relative overflow-hidden rounded-2xl group shadow-lg min-h-[300px] lg:min-h-full">
     <Image
-      src={movie.backdrop_path ? `https://image.tmdb.org/t/p/original${movie.backdrop_path}` : "/no-image.png"}
-      alt={movie.title}
-      fill
-      className="object-cover"
-    />
-    <div className="absolute inset-0 bg-black/20 flex items-end p-4 sm:p-10">
-      <div className="flex items-center gap-2 cursor-pointer group bg-black/40 px-3 py-1 rounded-full">
-        <TrailerSection movieId={movie.id} title={movie.title} />
-        <p className="text-white text-sm sm:text-lg font-semibold">Play Trailer <span className="font-normal text-xs opacity-80">2:35</span></p>
-      </div>
-    </div>
-  </div> */}
-
-
-  
-    <div className="flex gap-8 justify-center">
-   <div className="">
-     <Image
       src={
-        movie.poster_path
-          ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+        movie.backdrop_path
+          ? `https://image.tmdb.org/t/p/original${movie.backdrop_path}`
           : "/no-image.png"
       }
-      alt={`Poster of ${movie.title ?? "movie"}`}
-      width={300}
-      height={450}
-      className="w-25 h-37 object-cover rounded-xl bg-gray-200 transition-transform duration-500 hover:scale-105"
+      alt={movie.title}
+      fill
+      className="object-cover transition-transform duration-500 group-hover:scale-105"
     />
-  </div>
-  <div className="relative w-93.75 h-52.75 overflow-hidden rounded-lg ">
-  <Image
-    src={
-      movie.poster_path
-        ? `https://image.tmdb.org/t/p/original${movie.backdrop_path}`
-        : "/no-image.png"
-    }
-    alt={`Poster of ${movie.title ?? "movie"}`}
-    width={600}
-    height={450}
-    className="w-full h-full object-cover sm:w-auto"
-  />
-  </div>
-  
-
-
-
-
-
-
-
-    <div className="flex flex-col gap-3 flex-1">
-      {/* Genres */}
-      {movie.genres?.length > 0 && (
-        <div className="flex flex-wrap gap-1.5">
-          {movie.genres.map((genre: { id: Key | null | undefined; name: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; }) => (
-            <Link
-              key={genre.id} 
-              href={`/genre/${genre.id}`} 
-              className="px-2 py-0.5 text-[10px] sm:text-sm border border-gray-300 dark:border-gray-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition dark:text-white"
-            >
-              {genre.name}
-            </Link>
-          ))}
+    
+    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-6 lg:p-10">
+      <div className="flex items-center gap-4 cursor-pointer">
+          <TrailerSection movieId={movie.id} title={movie.title} />
+        <div className="flex flex-col">
+          <span className="text-white text-lg font-bold drop-shadow-md">
+            Watch Trailer
+          </span>
+          <span className="text-white/70 text-sm hidden lg:block">
+             Official video for {movie.title}
+          </span>
         </div>
-      )}
-
-      <p className="text-xs sm:text-base text-gray-700 dark:text-gray-300 leading-relaxed">
-        {movie.overview}
-      </p>
+      </div>
     </div>
   </div>
 
-  <div className="mt-8">
+  {/* Гар утсанд зориулсан Backdrop (Хэрэв утсан дээр тусад нь харуулмаар байвал) */}
+  <div className="sm:hidden relative w-full aspect-video rounded-xl overflow-hidden">
+     <Image
+        src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
+        alt={movie.title}
+        fill
+        className="object-cover"
+      />
+       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-6 lg:p-10">
+      <div className="flex items-center gap-4 cursor-pointer">
+          <TrailerSection movieId={movie.id} title={movie.title} />
+        <div className="flex flex-col">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <div className="mt-2 mr-10 ml-10 hidden lg:block">
+      <h1 className="text-2xl sm:text-4xl font-bold text-white leading-tight">
+        {movie.title}
+      </h1>
+      <p className="text-gray-400 mt-2 line-clamp-3">
+        {movie.overview}  
+      </p>
+    </div>
+    </div>
+
+    <div className="flex flex-row pl-10 rounded sm:hidden">
+        <div className="relative w-25 h-27 rounded-2xl shadow-2xl">
+      <Image
+        src={
+          movie.poster_path
+            ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+            : "/no-image.png"
+        }
+        alt={movie.title}
+        fill
+        className="object-cover"
+      />
+    </div>
+      <div className="w-50 pl-10">
+          {/* Genres */}
+          <div className="flex flex-wrap gap-2 mb-4">
+            {movie.genres?.map((genre: any) => (
+              <Link
+                key={genre.id}
+                href={`/genre/${genre.id}`}
+                className="px-3 py-1 text-xs border border-gray-600 rounded-full dark:text-white hover:bg-white hover:text-black transition-colors"
+              >
+                {genre.name}
+              </Link>
+            ))}
+          </div>
+
+          {/* Overview */}
+          <div className="w-51">
+            <h2 className="text-xl font-bold mb-2 dark:text-white hidden lg:block">Overview</h2>
+            <p className="text-gray-400 text-sm sm:text-base leading-relaxed">
+              {movie.overview}
+            </p>
+          </div>
+    </div>
+     </div>
+
+      <div className="mt-8">
     <MovieCrew movieId={id}/>
 
-    <div className="flex justify-between items-center pt-8 pb-4 border-b dark:border-gray-800">
+    <div className="flex justify-between items-center pl-10 pr-10 pt-18 pb-4 border-b dark:border-gray-800">
       <h3 className="font-bold text-lg sm:text-2xl dark:text-white">More like this</h3>
-      <Link href={`/category/same/${id}`} className="flex items-center gap-1 text-sm font-medium hover:underline">
+      <Link href={`/category/same/${id}`} className="flex items-center justify-center gap-1 text-sm font-medium bg-white text-black rounded w-30">
         See more <span className="text-lg">→</span>
       </Link>
     </div>
 
-    <div className="mt-6">
+    <div className="mt-16">
       <Same movieId={id} />
     </div>
   </div>
 </div>
-  );
-};
+        );
+      };
 

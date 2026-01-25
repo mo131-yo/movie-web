@@ -22,12 +22,10 @@ export const fetchfromMovieDb = async (category: string, page: number = 1) => {
       }
     );
 
-    if (!response.ok) return [];
-
     const data = await response.json();
-    return data.results || [];
+    return data.results || []; 
   } catch (error) {
-    console.error(error);
+    console.error("Fetch error:", error);
     return [];
   }
 };
@@ -38,11 +36,11 @@ const Popular = async () => {
   return (
     <div className="w-full">
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 px-4 sm:px-8 lg:px-20 mb-10">
-        {movies?.length > 0 ? (
-          movies.slice(0, 10).map((movie) => (
-            <MovieCard key={movie.id} movie={movie} />
-          ))
-        ) : (
+       {movies && movies.length > 0 ? (
+      movies.slice(0, 10).map((movie) => (
+       <MovieCard key={movie.id} movie={movie} />
+      ))
+      ) : ( 
           <p>Tiim kino olsongui</p>
         )}
       </div>
