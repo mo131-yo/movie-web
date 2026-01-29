@@ -63,7 +63,7 @@ export const Header = () => {
           className={`relative flex items-center bg-gray-100 dark:bg-gray-800 rounded-full transition-all duration-500 border-2 ${
             isFocused 
               ? "w-50 max-w-150 relative right-60 sm:right-0 border-indigo-500 ring-4 ring-indigo-500/10 shadow-lg" 
-              : "w-10 h-10 relative left-35 sm:w-64 lg:left-0 border-transparent cursor-pointer sm:cursor-text"
+              : "w-10 h-10 relative left-30 sm:w-64 lg:left-0 border-transparent cursor-pointer sm:cursor-text"
           }`}
           onClick={() => !isFocused && setIsFocused(true)}
         >
@@ -83,16 +83,11 @@ export const Header = () => {
 
           {isLoading && <Loader className="absolute right-3 w-4 h-4 animate-spin text-indigo-500" />}
           {isFocused && (
-    <button 
-      onClick={(e) => { e.stopPropagation(); setSearchValue("");
-        setIsFocused(false); 
-      }}
-      className="mr-3 p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full transition-colors"
-    >
-      <X className="w-4 h-4 text-gray-500 hover:text-red-500" />
-    </button>
-  )}
-         <div className="relative top-20 right-95">
+          <button onClick={(e) => { e.stopPropagation(); setSearchValue(""); setIsFocused(false); }}className="mr-3 p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full transition-colors">
+            <X className="w-4 h-4 text-gray-500 hover:text-red-500" />
+           </button>
+)}
+         <div className="relative top-20 right-80">
            {isFocused && searchValue && (
                <SearchResult keyword={searchValue} results={results} onClose={() => setSearchValue("")} />
           )}

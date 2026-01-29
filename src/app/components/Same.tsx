@@ -49,7 +49,7 @@ const Same = async ({ movieId }: SameProps) => {
     ))}
   </div>
   <div className="grid grid-cols-2 gap-4 sm:hidden">
-    {sameMovies.slice(0, 2).map((movie) => (
+    {sameMovies.slice(0, 6).map((movie) => (
       <MovieCard key={movie.id} movie={movie} />
     ))}
   </div>
