@@ -1,12 +1,20 @@
 import { DynamicPagination } from "@/app/components/DynamicPagination";
 import { MovieCard } from "@/app/components/MovieCard";
 import { fetchfromMovieDb} from "@/app/components/Popular";
-import { Movie } from "@/app/page";
 
 type PageProps = {
   params: Promise<{ movieCategory: string }>;
   searchParams: Promise<{ page?: string }>;
 }
+
+export type Movie = {
+  id: number;
+  title: string;
+  poster_path: string;
+  vote_average: number;
+  backdrop_path: string;
+  overview: string;
+};
 
 export default async function Page({ params, searchParams }: PageProps) {
   const { movieCategory } = await params;

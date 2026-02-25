@@ -42,7 +42,7 @@ export const Header = () => {
         </motion.div>
       </div>
 
-      <div className="flex flex-1 justify-center items-center gap-2 px-2 relative ">
+      <div className="flex flex-1 justify-center items-center gap-2 px-18 relative ">
        <div className="hidden sm:block">
          <SearchGenre />
        </div>
@@ -50,7 +50,7 @@ export const Header = () => {
           {isFocused && (
             <motion.div 
               initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
+              animate={{ opacity: 1, scale: 1 }}  
               exit={{ opacity: 0, scale: 0.8 }}
               className="relative sm:hidden right-30"
             >

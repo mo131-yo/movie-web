@@ -71,7 +71,7 @@ export default function Phonegenre() {
         <SlArrowDown className={`transition-transform ${open ? "rotate-180" : ""}`} />
       </Badge>
       {open && (
-        <div className="absolute top-24 mt-2 right-2 w-100  bg-white border border-gray-200 rounded-2xl shadow-2xl p-5 z-50 dark:bg-gray-900 dark:border-gray-700">
+        <div className="absolute top-24 mt-2 right-3 w-90 sm:w-110 bg-white border border-gray-200 rounded-2xl shadow-2xl p-5 z-50 dark:bg-gray-900 dark:border-gray-700">
           <h3 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100">Select Genres</h3>
           
           {loading ? (

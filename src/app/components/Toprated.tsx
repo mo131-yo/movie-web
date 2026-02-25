@@ -1,6 +1,5 @@
 import React from "react";
 import { MovieCard } from "./MovieCard";
-// import { DynamicPagination} from "@/app/components/DynamicPagination"
 
 export type Movie = {
   id: number;

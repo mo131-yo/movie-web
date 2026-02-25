@@ -39,8 +39,8 @@ import React from "react";
         </div>
         <div
           className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6 lg:gap-8 px-4 sm:px-8 lg:px-20 mb-10">
-          {upcomingMovies.slice(0, 10).map((movie) => (
-            <MovieCard key={movie.id} movie={movie} />
+           {upcomingMovies.slice(0, 10).map((movie) => (
+           <MovieCard key={movie.id} movie={movie} />
           ))}
         </div>
       </section>

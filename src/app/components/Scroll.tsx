@@ -1,7 +1,4 @@
-import React from "react";
-import Image from "next/image";
 import { Bigpic } from "./Bigpic";
-import Link from "next/link";
 
 import {
   Carousel,

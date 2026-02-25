@@ -16,6 +16,8 @@ export default async function GenreDetailPage({ params, searchParams }: Props) {
     `https://api.themoviedb.org/3/discover/movie?with_genres=${id}&language=en-US&page=${currentPage}`,
     {
       headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
         Authorization: `Bearer ${process.env.NEXT_API_TOKEN}`,
       },
     }
@@ -44,7 +46,7 @@ export default async function GenreDetailPage({ params, searchParams }: Props) {
             Total movies: {totalMovies.toLocaleString()}
           </p> 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 w-full">
-            {movies.map((movie: any) => (
+            {movies.map((movie: any) => ( 
               <MovieCard key={movie.id} movie={movie} />
             ))}
           </div>
