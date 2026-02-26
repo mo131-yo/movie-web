@@ -60,7 +60,7 @@
 
        
        return (
-    <div className="max-w-full overflow-hidden">
+    <div className="max-w-full overflow-hidden pl-4">
       <div className="flex flex-row justify-between items-start px-4 sm:px-10 lg:px-20 pt-6 sm:pt-10 gap-4">
         <div className="flex flex-col flex-1 min-w-0">
           <h1 className="text-xl sm:text-3xl font-bold dark:text-white break-words">
