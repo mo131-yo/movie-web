@@ -53,16 +53,16 @@ export const Results = async ({
 
   return (
     <div className='pb-20 pt-20'>
-      <h3 className="font-semibold text-2xl text-black px-20 pb-5 dark:text-white">
+      <h3 className="font-semibold text-2xl text-black px-20 pb-5 dark:text-white pb-10">
         More Like This
       </h3>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 pt-10 pr-10 pl-10 gap-8">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6 lg:gap-8 px-4 sm:px-8 lg:px-20">
         {movies.map((movie) => (
           <MovieCard movie={movie} key={movie.id} />
         ))}
       </div>
       <div className='pt-20'>
-        <DynamicPagination totalPages={totalPages} />
+        <DynamicPagination totalPages={totalPages} genreId={id} />
       </div>
     </div>
   );

@@ -34,27 +34,34 @@ export const fetchSameMoviesDB = async (
   return data.results;
 };
 
-const Same = async ({ movieId }: SameProps) => {
+export const Same = async ({ movieId }: SameProps) => {
   const sameMovies = await fetchSameMoviesDB(movieId);
 
   if (!sameMovies || sameMovies.length === 0) {
     return null;
   }
 
-  return (
-    <div className="mb-10 px-6">
-  <div className="hidden sm:grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 sm:gap-6 lg:gap-8">
-    {sameMovies.slice(0, 5).map((movie) => (
-      <MovieCard key={movie.id} movie={movie} />
-    ))}
-  </div>
-  <div className="grid grid-cols-2 gap-4 sm:hidden">
-    {sameMovies.slice(0, 6).map((movie) => (
-      <MovieCard key={movie.id} movie={movie} />
-    ))}
-  </div>
-</div>
-  );
-};
+return (
+  <div className="w-full mb-10">
+    <div className="hidden sm:grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 lg:gap-8 px-4 sm:px-8 lg:px-20">
+      {sameMovies && sameMovies.length > 0 ? (
+        sameMovies.slice(0, 5).map((movie) => (
+          <MovieCard key={movie.id} movie={movie} />
+        ))
+      ) : (
+        <p className="col-span-full text-center text-gray-500">Kino oldsongui</p>
+      )}
+    </div>
 
-export default Same;
+    <div className="grid grid-cols-2 gap-4 px-4 sm:hidden"> 
+      {sameMovies && sameMovies.length > 0 ? (
+        sameMovies.slice(0, 6).map((movie) => (
+          <MovieCard key={movie.id} movie={movie} />
+        ))
+      ) : (
+        <p className="col-span-full text-center text-gray-500">Kino oldsongui</p>
+      )}
+    </div>
+  </div>
+);
+}

@@ -25,16 +25,16 @@ export default async function Page({ params, searchParams }: PageProps) {
 
   return (
     <div>
-         <div className="text-[30px] flex justify-start font-semibold pt-10 pl-25 ">
+         <div className="text-[30px] flex justify-start font-semibold pt-10 pl-7">
             <h2>{movieCategory}</h2>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 pt-10 pr-10 pl-10 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 pt-10 pr-3 pl-3 gap-5">
             {movies.map((movie)=> (
                 <MovieCard key={movie.id} movie={movie}/>
             ))}
         </div>
       <div className="py-10">
-        <DynamicPagination totalPages={10} />
+        <DynamicPagination totalPages={10} genreId={movieCategory} />
       </div>
     </div>
   );

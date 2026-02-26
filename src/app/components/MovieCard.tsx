@@ -61,9 +61,9 @@ export const MovieCard = ({ movie }: { movie: Movie }) => {
           zIndex: 50,
           transition: { duration: 0.3 }
         }}
-        className="relative w-full sm:w-48 md:w-56 lg:w-60 rounded-xl overflow-hidden bg-white dark:bg-gray-900 shadow-[0_0_20px_rgba(0,0,0,0.5)] hover:shadow-red-600/50 dark:hover:shadow-blue-700/50 transition-shadow duration-300"
+        className="relative w-full rounded-xl overflow-hidden bg-white dark:bg-gray-900 shadow-[0_0_20px_rgba(0,0,0,0.5)] hover:shadow-red-600/50 dark:hover:shadow-blue-700/50 transition-shadow duration-300"
       >
-        <svg className="absolute inset-0 w-full h-full pointer-events-none z-20" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <svg className="absolute inset-0 w-full pointer-events-none z-20" viewBox="0 0 100 100" preserveAspectRatio="none">
           <motion.rect
             width="100" height="100" fill="none" stroke="#ef4444" strokeWidth="1.5" pathLength="1"
             variants={{ initial: { pathLength: 0, opacity: 0 }, hover: { pathLength: 1, opacity: 1 } }}

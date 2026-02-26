@@ -1,6 +1,6 @@
       import Image from "next/image";
       import Link from "next/link";
-      import Same from "@/app/components/Same"
+      import {Same} from "@/app/components/Same"
       import MovieCrew from "@/app/components/MovieCrew";
       import {TrailerModal} from "@/app/components/TrailerModal";
       import TrailerSection from "@/app/components/TrailerSection";
@@ -75,7 +75,7 @@
           </div>
         </div>
         
-        <div className="flex items-center gap-1 shrink-0">
+        <div className="flex items-center gap-1 shrink-0 px-10">
           <FaStar className="text-yellow-400 w-4 h-4 sm:w-5 sm:h-5" />
           <div className="flex flex-col">
             <p className="font-bold text-xs sm:text-base dark:text-white">
@@ -147,7 +147,7 @@
               className="object-cover"
             />
           </div>
-          <div className="flex flex-col gap-2 min-w-0">
+          <div className="flex flex-col gap-2 min-w-0 px-4 ">
             <div className="flex flex-wrap gap-1">
               {movie.genres?.slice(0, 3).map((genre: any) => (
                 <span key={genre.id} className="px-2 py-0.5 text-[10px] border border-gray-600 rounded-full dark:text-white uppercase">
@@ -162,8 +162,10 @@
         </div>
       </div>
 
-      <div className="mt-8">
-        <MovieCrew movieId={id} />
+      <div className="mt-8 px-4 sm:ml-10 sm:px-10 lg:px-0 mt-10">
+        <div className="sm:">
+          <MovieCrew movieId={id} />
+        </div>
         
         <div className="flex justify-between items-center px-4 sm:px-10 mt-10 pb-4 border-b dark:border-gray-800">
           <h3 className="font-bold text-lg sm:text-2xl dark:text-white">More like this</h3>

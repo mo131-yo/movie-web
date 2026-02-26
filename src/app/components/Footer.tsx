@@ -13,7 +13,7 @@ export const Footer = () => {
             <TbMovie className="w-6 h-6" />
             <p className="font-bold text-lg">White Z</p>
           </div>
-          <p className="text-sm opacity-80">© 2024 Movie Z. All Rights Reserved.</p>
+          <p className="text-sm opacity-80">© 2026 Movie Z created by in Pinecone.</p>
         </div>
         <div className="flex flex-col gap-4">
           <p className="font-semibold">Contact Information</p>
@@ -22,7 +22,7 @@ export const Footer = () => {
             <MdEmail className="w-4 h-4 mt-1" />
             <div>
               <p className="font-medium text-sm">Email</p>
-              <p className="text-sm opacity-80">support@movieZ.com</p>
+              <p className="text-sm opacity-80">munhorgilmunhtsetseg333@gmail.com</p>
             </div>
           </div>
           <div className="flex items-start gap-3">

@@ -19,12 +19,18 @@ export default function Phonegenre() {
   const router = useRouter();
   const params = useParams();
 
-  useEffect(() => {
-    if (params.id) {
-      const idsFromUrl = (params.id as string).split(",").map(Number);
-      setSelectedGenres(idsFromUrl);
-    }
-  }, [params.id]);
+ useEffect(() => {
+  if (params.id) {
+    const idsFromUrl = (params.id as string)
+      .split(",")
+      .map(id => Number(id))
+      .filter(id => !isNaN(id)); // ЭНД: Тоо биш утгуудыг (NaN) шүүж хаяна
+    
+    setSelectedGenres(idsFromUrl);
+  } else {
+    setSelectedGenres([]); // Хэрэв ID байхгүй бол хоосон болгоно
+  }
+}, [params.id]);
 
   const getGenres = async () => {
     try {
@@ -57,13 +63,17 @@ export default function Phonegenre() {
   };
 
   const applyFilter = () => {
-    if (selectedGenres.length > 0) {
-      router.push(`/genre/${selectedGenres.join(",")}`);
-    } else {
-      router.push(`/genre`);
-    }
-    setOpen(false);
-  };
+  // Зөвхөн тоон утгуудыг шүүж аваад URL руу явуулах
+  const validGenres = selectedGenres.filter(id => !isNaN(id) && id !== 0);
+
+  if (validGenres.length > 0) {
+    router.push(`/genre/${validGenres.join(",")}`);
+  } else {
+    // Хэрэв сонгосон жанр байхгүй бол "all" эсвэл үндсэн зам руу буцна
+    router.push(`/genre/all`); 
+  }
+  setOpen(false);
+};
 
   return (
     <div className="relative left-30 px-35 lg:px-0 py-8">

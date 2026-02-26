@@ -46,7 +46,7 @@ const MovieCrew = async ({ movieId }: Props) => {
   );
 
   return (
-    <div className="mt-10 space-y-10 pl-10">
+    <div className="mt-10 space-y-10">
       {director && (
         <div className="flex items-start gap-6">
           <h3 className="w-28 text-base font-bold text-black dark:text-white">Director</h3>

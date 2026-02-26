@@ -31,27 +31,21 @@
 
   const Popular = async () => {
     const movies: Movie[] = await fetchfromMovieDb("popular", 1);
-
-   return (
+return (
     <div className="w-full">
       <div className="px-4 sm:px-8 lg:px-20 py-6 flex items-center justify-between">
-        <h3 className="font-semibold text-lg sm:text-xl lg:text-2xl text-black dark:text-white">
+        <h3 className="font-semibold text-lg sm:text-xl lg:text-2xl text-black dark:text-white pb-10">
           Popular movies
         </h3>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6 lg:gap-8 px-4 sm:px-8 lg:px-20 mb-10">
-        {movies && movies.length > 0 ? (
-          movies.slice(0, 10).map((movie) => (
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-8 px-4 sm:px-8 lg:px-20 mb-10">
+        {movies.slice(0, 10).map((movie) => (
             <MovieCard key={movie.id} movie={movie} />
-          ))
-        ) : (
-          <div className="col-span-full py-10 text-center">
-            <p className="text-gray-500">Tiim kino olsongui</p>
-          </div>
-        )}
+          ))}
       </div>
     </div>
   );
 };
-  export default Popular;
+
+export default Popular;

@@ -12,9 +12,12 @@ type Genre = {
 
 export default function MovieGenrePage() {
   const router = useRouter();
-  const params = useParams();
+const params = useParams();
+// params.id-г аваад, хэрэв NaN гэсэн стринг байвал түүнийг "all" эсвэл хоосон болгоно
+const rawId = params?.id ? decodeURIComponent(params.id as string) : "all";
+const idFromUrl = rawId.includes("NaN") ? "all" : rawId
   
-  const idFromUrl = params?.id ? decodeURIComponent(params.id as string) : "all";
+  // const idFromUrl = params?.id ? decodeURIComponent(params.id as string) : "all";
 
   const [genres, setGenres] = useState<Genre[]>([]);
   const [movies, setMovies] = useState<any[]>([]);
@@ -61,26 +64,54 @@ export default function MovieGenrePage() {
     fetchMovies();
   }, [idFromUrl]); 
 
-  const handleToggleGenre = (genreId: number) => {
-    let selectedIds = idFromUrl !== "all" 
-      ? idFromUrl.split(/[|,]/) 
+//   const handleToggleGenre = (genreId: number) => {
+//    let selectedIds = (idFromUrl !== "all" && idFromUrl !== "") 
+//     ? idFromUrl.split(/[|,]/).filter(id => id !== "NaN" && id !== "") 
+//     : [];
+
+//     const genreIdStr = String(genreId);
+    
+//     if (selectedIds.includes(genreIdStr)) {
+//       selectedIds = selectedIds.filter((id) => id !== genreIdStr);
+//     } else {
+//       selectedIds = [...selectedIds, genreIdStr];
+//     }
+
+//   if (selectedIds.length > 0) {
+//     // Давхардсан ID байхгүй эсэхийг шалгаад залгах
+//     const uniqueIds = Array.from(new Set(selectedIds));
+//     router.push(`/genre/${uniqueIds.join(",")}`);
+//   } else {
+//     router.push(`/genre/all`);
+//   }
+// };
+
+const handleToggleGenre = (genreId: number) => {
+    // ID-нуудыг салгахдаа NaN, undefined-ыг давхар шүүх
+    let selectedIds = (idFromUrl !== "all" && idFromUrl !== "") 
+      ? idFromUrl.split(/[|,]/).filter(val => 
+          val !== "NaN" && 
+          val !== "undefined" && 
+          val !== "" && 
+          !isNaN(Number(val)) // Зөвхөн тоо эсэхийг шалгана
+        ) 
       : [];
 
-    const genreIdStr = String(genreId);
-    
-    if (selectedIds.includes(genreIdStr)) {
+  const genreIdStr = String(genreId);
+  
+if (selectedIds.includes(genreIdStr)) {
       selectedIds = selectedIds.filter((id) => id !== genreIdStr);
     } else {
       selectedIds = [...selectedIds, genreIdStr];
     }
 
     if (selectedIds.length > 0) {
-      router.push(`/genre/${selectedIds.join(",")}`);
+      const uniqueIds = Array.from(new Set(selectedIds));
+      router.push(`/genre/${uniqueIds.join(",")}`);
     } else {
       router.push(`/genre/all`);
     }
   };
-
   return (
     <div className="p-6 lg:p-10">
       <div className="flex flex-wrap gap-3 mb-10">

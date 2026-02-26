@@ -33,7 +33,7 @@ import React from "react";
     return (
       <section className="w-full">
         <div className="px-4 sm:px-8 lg:px-20 pb-4 flex items-center justify-between">
-          <h3 className="font-semibold text-lg sm:text-xl lg:text-2xl text-black">
+          <h3 className="font-semibold text-lg sm:text-xl lg:text-2xl text-black pb-10">
             Upcoming movies
           </h3>
         </div>
