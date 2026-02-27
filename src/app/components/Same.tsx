@@ -43,7 +43,7 @@ export const Same = async ({ movieId }: SameProps) => {
 
 return (
   <div className="w-full mb-10">
-    <div className="hidden sm:grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 lg:gap-8 px-4 sm:px-8 lg:px-20">
+    <div className="hidden sm:grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 lg:gap-8 px-4 sm:px-8">
       {sameMovies && sameMovies.length > 0 ? (
         sameMovies.slice(0, 5).map((movie) => (
           <MovieCard key={movie.id} movie={movie} />

@@ -61,9 +61,34 @@
        
        return (
     <div className="max-w-full overflow-hidden pl-4">
+       <style>
+              {`@keyframes aitf {
+          0% { background-position: 0% 50%; }
+          100% { background-position: 100% 50%; }
+          }
+              .animated-text-title-dark {
+            background: url(https://thumbcdn.123freevectors.com/wp-content/resized/150964-abstract-light-blue-diagonal-shiny-lines-background-design-template.webp) repeat-x;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: aitf 10s linear infinite;
+            -webkit-transform: translate3d(0,0,0);
+            backface-visibility: hidden;
+          }
+             .animated-text-title {
+            background: url(https://thumbcdn.123freevectors.com/wp-content/resized/150499-bright-blue-diagonal-shiny-lines-background.webp) repeat-x;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: aitf 10s linear infinite;
+            -webkit-transform: translate3d(0,0,0);
+            backface-visibility: hidden;
+          }
+          `}
+      </style>
       <div className="flex flex-row justify-between items-start px-4 sm:px-10 lg:px-20 pt-6 sm:pt-10 gap-4">
         <div className="flex flex-col flex-1 min-w-0">
-          <h1 className="text-xl sm:text-3xl font-bold dark:text-white break-words">
+          <h1 className="text-xl sm:text-3xl font-bold dark:text-white wrap-break-word animated-text-title dark:animated-text-title-dark">
             {movie.title}
           </h1>
           <div className="flex items-center font-medium gap-2 text-[10px] sm:text-sm text-gray-500 mt-1">
@@ -88,7 +113,7 @@
 
       <div className="flex flex-col lg:flex-row gap-6 lg:gap-10 p-4 lg:p-20 w-full items-stretch">
         <div className="hidden sm:block shrink-0 w-64 lg:w-80">
-          <div className="relative aspect-[2/3] overflow-hidden rounded-2xl shadow-2xl border-2 border-white/10">
+          <div className="relative aspect-2/3 overflow-hidden rounded-2xl shadow-2xl border-2 border-white/10">
             <Image
               src={movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : "/no-image.png"}
               alt={movie.title}
@@ -162,8 +187,8 @@
         </div>
       </div>
 
-      <div className="mt-8 px-4 sm:ml-10 sm:px-10 lg:px-0 mt-10">
-        <div className="sm:">
+      <div className="px-4 sm:ml-10 sm:px-10 lg:px-0 mt-10">
+        <div className="pl-1 sm:pl-10">
           <MovieCrew movieId={id} />
         </div>
         
@@ -174,7 +199,7 @@
           </Link>
         </div>
 
-        <div className="mt-8 px-4 sm:px-10">
+        <div className="mt-8">
           <Same movieId={id} />
         </div>
       </div>
