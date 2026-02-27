@@ -5,6 +5,8 @@
       import {TrailerModal} from "@/app/components/TrailerModal";
       import TrailerSection from "@/app/components/TrailerSection";
       import { FaStar } from "react-icons/fa";
+import { Button } from "@/components/ui/button";
+import { HiArrowSmallRight } from "react-icons/hi2";
 
       export type Movie={
         id: number;
@@ -61,6 +63,42 @@
        
        return (
     <div className="max-w-full overflow-hidden pl-4">
+       <style>{`
+          .btn-9 {
+          border: none;
+          transition: all 0.3s ease;
+          overflow: hidden;
+        }
+        .btn-9:after {
+          position: absolute;
+          content: " ";
+          z-index: -1;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: #1fd1f9;
+        background-image: linear-gradient(315deg, #1fd1f9 0%, #b621fe 74%);
+          transition: all 0.3s ease;
+        }
+        .btn-9:hover {
+          background: transparent;
+          box-shadow:  4px 4px 6px 0 rgba(255,255,255,.5),
+                      -4px -4px 6px 0 rgba(116, 125, 136, .2), 
+            inset -4px -4px 6px 0 rgba(255,255,255,.5),
+            inset 4px 4px 6px 0 rgba(116, 125, 136, .3);
+          color: #fff;
+        }
+        .btn-9:hover:after {
+          -webkit-transform: scale(2) rotate(180deg);
+          transform: scale(2) rotate(180deg);
+          box-shadow:  4px 4px 6px 0 rgba(255,255,255,.5),
+                      -4px -4px 6px 0 rgba(116, 125, 136, .2), 
+            inset -4px -4px 6px 0 rgba(255,255,255,.5),
+            inset 4px 4px 6px 0 rgba(116, 125, 136, .3);
+        }
+        `}
+        </style>
        <style>
               {`@keyframes aitf {
           0% { background-position: 0% 50%; }
@@ -145,7 +183,7 @@
             fill
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-4">
+          <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent flex items-end p-4">
             <TrailerSection movieId={movie.id} title={movie.title} />
           </div>
         </div>
@@ -194,8 +232,13 @@
         
         <div className="flex justify-between items-center px-4 sm:px-10 mt-10 pb-4 border-b dark:border-gray-800">
           <h3 className="font-bold text-lg sm:text-2xl dark:text-white">More like this</h3>
-          <Link href={`/category/same/${id}`} className="px-4 py-1.5 text-xs font-medium bg-white text-black rounded hover:bg-gray-200 transition-colors">
-            See more
+          <Link href={`/category/same/${id}`} className="pb-10">
+            <Button className="custom-btn btn-9 relative top-5">
+              <div className="flex gap-2 items-center justify-center">
+                <span>See More</span> 
+                <HiArrowSmallRight />
+              </div>
+            </Button>
           </Link>
         </div>
 

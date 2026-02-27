@@ -32,6 +32,40 @@
 
     return (
       <div className="h-16 w-full px-4 md:px-16 flex justify-between items-center bg-white dark:bg-black sticky top-0 z-100 border-b dark:border-gray-800 transition-colors">
+        <style>{`.btn-13 {
+  background-color: #89d8d3;
+background-image: linear-gradient(315deg, #89d8d3 0%, #03c8a8 74%);
+  border: none;
+  z-index: 1;
+}
+.btn-13:after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  border-radius: 5px;
+   background-color: #4dccc6;
+background-image: linear-gradient(315deg, #4dccc6 0%, #96e4df 74%);
+  box-shadow:
+   -7px -7px 20px 0px #fff9,
+   -4px -4px 5px 0px #fff9,
+   7px 7px 20px 0px #0002,
+   4px 4px 5px 0px #0001;
+  transition: all 0.3s ease;
+}
+.btn-13:hover {
+  color: #fff;
+}
+.btn-13:hover:after {
+  top: 0;
+  height: 100%;
+}
+.btn-13:active {
+  top: 2px;
+}`}</style>
           <style>
               {`@keyframes aitf {
           0% { background-position: 0% 50%; }
@@ -69,68 +103,6 @@
             </Link>
           </motion.div>
         </div>
-
-
-
-        {/* <div className="flex flex-1 justify-center items-center gap-2 px-18 relative">
-           <div className="hidden sm:block">
-             <SearchGenre />
-           </div>
-
-          <div 
-            className={`relative flex items-center bg-gray-100 dark:bg-gray-800 rounded-full transition-all duration-500 border-2 ${
-              isFocused 
-                ? "w-50 max-w-150 relative right-80 sm:right-0 border-indigo-500 ring-4 ring-indigo-500/10 shadow-lg" 
-                : "w-10 h-10 relative right-0 sm:w-64 border-transparent cursor-pointer sm:cursor-text"
-            }`}
-            onClick={() => !isFocused && setIsFocused(true)}
-          >
-            <Search className={`ml-2 w-5 h-5 shrink-0 ${isFocused ? "text-indigo-500" : "text-gray-400"}`} />
-            
-            <input 
-              type="text"   
-              placeholder="Search the movie..."
-              onFocus={() => setIsFocused(true)}
-              onBlur={() => setTimeout(() => setIsFocused(false), 200)}
-              onChange={handleChange} 
-              value={searchValue}
-              className={`bg-transparent p-2 outline-none w-full text-sm dark:text-white transition-opacity duration-300 ${
-                isFocused ? "opacity-100  block" : "opacity-0 sm:opacity-100 hidden sm:block"
-              }`}
-            />
-
-            {isLoading && <Loader className="absolute right-3 w-4 h-4 animate-spin text-indigo-500" />}
-            {isFocused && (
-            <button onClick={(e) => { e.stopPropagation(); setSearchValue(""); setIsFocused(false); }}className="mr-3 p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full transition-colors">
-              <X className="w-4 h-4 text-gray-500 hover:text-red-500" />
-            </button>
-  )}
-  <div>
-         <AnimatePresence>
-            {isFocused && (
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}  
-                exit={{ opacity: 0, scale: 0.8 }}
-                className="relative sm:hidden"
-              >
-                <Phonegenre />
-              </motion.div>
-            )}
-          </AnimatePresence>  
-  </div>
-          <div className="top-20 absolute right-70">
-            {isFocused && searchValue && (
-                <SearchResult keyword={searchValue} results={results} onClose={() => setSearchValue("")} />
-            )}
-          </div>
-          </div>
-        </div>
-        <div className={`flex items-center gap-2 transition-all duration-300${isFocused 
-      ? "opacity-0 scale-0 pointer-events-none w-0 sm:opacity-100 sm:scale-100 sm:w-auto"
-      : "opacity-100 scale-100 flex"
-    }
-  `}> */}
   <div>
   <div className="flex items-center justify-between w-full gap-2">
       <div className="hidden sm:block">
