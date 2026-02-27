@@ -10,7 +10,6 @@ type Props = {
 export default async function GenreDetailPage({ params, searchParams }: Props) {
  const { id } = await params;
 
-// 'NaN' эсвэл 'undefined' гэсэн текстийг URL-аас цэвэрлэх
 const cleanId = id.replace(/NaN,?/g, "").replace(/undefined,?/g, "").replace(/^,|,$/g, "");
 const finalId = (cleanId === "" || cleanId === "all") ? "" : cleanId;
   const sParams = await searchParams;
@@ -33,37 +32,6 @@ const finalId = (cleanId === "" || cleanId === "all") ? "" : cleanId;
   
   const totalPages = data.total_pages > 500 ? 500 : data.total_pages;
 
-//   return (
-//     <div className="p-4 sm:p-6 lg:p-10">
-//       <h1 className="text-3xl sm:text-2xl font-bold mb-6">
-//         Search filter
-//         <div className="border-b mt-2 w-full"></div>
-//       </h1>
-//       <div className="flex flex-col lg:flex-row gap-10">
-//         <div className="w-full lg:w-72 xl:w-80 shrink-0">
-//           <p className="text-2xl font-semibold">Genres</p>
-//           <p className="text-base font-normal mb-4">See lists of movies by genre</p>
-//           <MovieGenrePage />
-//         </div>
-//         <div className="flex-1">
-//           <p className="text-sm text-black font-semibold mb-6">
-//             Total movies: {totalMovies.toLocaleString()}
-//           </p> 
-//           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 w-full">
-//             {movies.map((movie: any) => ( 
-//               <MovieCard key={movie.id} movie={movie} />
-//             ))}
-//           </div>
-//           <div className="mt-10">
-//             <DynamicPagination totalPages={totalPages} genreId={id}/>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );  
-// }
-
-
 return (
     <div className="p-4 sm:p-6 lg:p-10">
       <h1 className="text-3xl sm:text-2xl font-bold mb-6">
@@ -79,7 +47,6 @@ return (
         </div>
 
         <div className="flex-1">
-          {/* 1. Кино олдсон эсэхийг шалгах */}
           {movies.length > 0 ? (
             <>
               <p className="text-sm text-black font-semibold mb-6">
@@ -91,12 +58,10 @@ return (
                 ))}
               </div>
               <div className="mt-10">
-                {/* genreId-г заавал дамжуулна */}
                 <DynamicPagination totalPages={totalPages} genreId={finalId} />
               </div>
             </>
           ) : (
-            /* 2. Кино олдоогүй үед харагдах хэсэг */
             <div className="flex flex-col items-center justify-center w-full py-50 bg-gray-200 rounded-lg border dark:bg-gray-800">
               <p className="text-xl font-medium text-black">
                 Ene turliin kino oldsongui

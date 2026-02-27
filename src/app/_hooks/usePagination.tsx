@@ -2,7 +2,7 @@
 
 import { usePathname, useSearchParams, useRouter } from "next/navigation"
 
-export const usePagination = (totalPages: number = 10, genreId: string) => {
+export const usePagination = (totalPages: number = 10, genreId?: string | number) => {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();

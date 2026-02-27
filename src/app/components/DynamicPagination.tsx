@@ -12,14 +12,14 @@
   import { usePagination } from "../_hooks/usePagination";
   import { cn } from "@/lib/utils";
 
-  type DynamicPaginationProps = {
-    totalPages: number;
-    genreId: string
-  };
+ interface DynamicPaginationProps {
+  totalPages: number;
+  genreId?: string | number;
+}
 
   
-  export const DynamicPagination = ({ totalPages, genreId }: DynamicPaginationProps) => {
-    const { displayPages, currentPage, handleNext, handlePageChange, handlePrev } = usePagination(totalPages, genreId);
+export const DynamicPagination = ({ totalPages, genreId }: DynamicPaginationProps) => {
+  const { displayPages, currentPage, handleNext, handlePageChange, handlePrev } = usePagination(totalPages, String(genreId ?? ""));
 
     return (
       <Pagination>
