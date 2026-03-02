@@ -13,7 +13,6 @@ type Genre = {
 export default function MovieGenrePage() {
   const router = useRouter();
 const params = useParams();
-// params.id-г аваад, хэрэв NaN гэсэн стринг байвал түүнийг "all" эсвэл хоосон болгоно
 const rawId = params?.id ? decodeURIComponent(params.id as string) : "all";
 const idFromUrl = rawId.includes("NaN") ? "all" : rawId
   

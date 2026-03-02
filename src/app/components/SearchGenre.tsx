@@ -67,7 +67,7 @@ export default function GenrePage() {
 
   return (
     <div className="relative left-30 px-35 lg:px-0 py-8">
-      <style>{`.btn-13 {
+      {/* <style>{`.btn-13 {
       background-color: #89d8d3;
       background-image: linear-gradient(315deg, #89d8d3 0%, #03c8a8 74%);
         border: none;
@@ -101,7 +101,7 @@ export default function GenrePage() {
       .btn-13:active {
         top: 2px;
       }`}
-    </style>
+    </style> */}
       <Badge onClick={() => setOpen(!open)} variant="outline" className="cursor-pointer relative right-30 shadow text-black text-sm font-medium px-4 py-2 mt-4 rounded-lg mb-4 flex gap-2 items-center hover:bg-gray-50 transition-colors dark:bg-gray-800 dark:text-white custon-btn btn-13">
         <SlArrowDown className={`transition-transform ${open ? "rotate-180" : ""}`} />
         Genre 
