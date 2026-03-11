@@ -33,39 +33,39 @@
     return (
       <div className="h-16 w-full px-4 md:px-16 flex justify-between items-center bg-white dark:bg-black sticky top-0 z-100 border-b dark:border-gray-800 transition-colors">
         <style>{`.btn-13 {
-  background-color: #89d8d3;
-background-image: linear-gradient(315deg, #89d8d3 0%, #03c8a8 74%);
-  border: none;
-  z-index: 1;
-}
-.btn-13:after {
-  position: absolute;
-  content: "";
-  width: 100%;
-  height: 0;
-  bottom: 0;
-  left: 0;
-  z-index: -1;
-  border-radius: 5px;
-   background-color: #4dccc6;
-background-image: linear-gradient(315deg, #4dccc6 0%, #96e4df 74%);
-  box-shadow:
-   -7px -7px 20px 0px #fff9,
-   -4px -4px 5px 0px #fff9,
-   7px 7px 20px 0px #0002,
-   4px 4px 5px 0px #0001;
-  transition: all 0.3s ease;
-}
-.btn-13:hover {
-  color: #fff;
-}
-.btn-13:hover:after {
-  top: 0;
-  height: 100%;
-}
-.btn-13:active {
-  top: 2px;
-}`}</style>
+              background-color: #89d8d3;
+            background-image: linear-gradient(315deg, #89d8d3 0%, #03c8a8 74%);
+              border: none;
+              z-index: 1;
+            }
+            .btn-13:after {
+              position: absolute;
+              content: "";
+              width: 100%;
+              height: 0;
+              bottom: 0;
+              left: 0;
+              z-index: -1;
+              border-radius: 5px;
+              background-color: #4dccc6;
+            background-image: linear-gradient(315deg, #4dccc6 0%, #96e4df 74%);
+              box-shadow:
+              -7px -7px 20px 0px #fff9,
+              -4px -4px 5px 0px #fff9,
+              7px 7px 20px 0px #0002,
+              4px 4px 5px 0px #0001;
+              transition: all 0.3s ease;
+            }
+            .btn-13:hover {
+              color: #fff;
+            }
+            .btn-13:hover:after {
+              top: 0;
+              height: 100%;
+            }
+            .btn-13:active {
+              top: 2px;
+            }`}</style>
           <style>
               {`@keyframes aitf {
           0% { background-position: 0% 50%; }
@@ -96,8 +96,8 @@ background-image: linear-gradient(315deg, #4dccc6 0%, #96e4df 74%);
                 <TbMovie className="w-6 h-6 text-indigo-700 animated-text-fill" />
                 <div className="hidden sm:block">
                   <div className='flex leading-tight text-2xl font-black italic tracking-tighter'>
-                    <p className="animated-text-fill ">Movie</p>
-                    <p className="animated-text-fill-1 ml-1">Z</p>  
+                    <p className="animated-text-fill ">Mo</p>
+                    <p className="animated-text-fill-1 ml-1">Movie</p>  
                    </div>
                 </div>
             </Link>
