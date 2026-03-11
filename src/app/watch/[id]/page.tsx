@@ -100,10 +100,15 @@ export default async function WatchPage({ params }: Props) {
   const { id } = await params;
   const movie = await fetchMovieById(id);
 
-  // Сервер талд window байхгүй тул Vercel-ийн URL-аа ашиглана
-  const domain = process.env.NEXT_PUBLIC_SITE_URL || 'https://movie-web-sigma-seven.vercel.app';
-  const subUrl = `${domain}/sprited-away.vtt`;
-  const encodedSubUrl = encodeURIComponent(subUrl);
+  // const domain = process.env.NEXT_PUBLIC_SITE_URL || 'https://movie-web-sigma-seven.vercel.app';
+  // const subUrl = `${domain}/sprited-away.vtt`;
+  // const encodedSubUrl = encodeURIComponent(subUrl);
+
+  // const videoSrc = `https://www.vidking.net/embed/movie/${id}?sub.Mongolian=${encodedSubUrl}`;
+
+
+  const rawGistUrl = "https://gist.githubusercontent.com/mo131-yo/2dd3ea1e449b5a2b0a2d47e5830f51b7/raw/bd537be8a04058d5a0d7b79cc8612fa5df049a44/sprited-away.vtt"; 
+  const encodedSubUrl = encodeURIComponent(rawGistUrl);
 
   const videoSrc = `https://www.vidking.net/embed/movie/${id}?sub.Mongolian=${encodedSubUrl}`;
 
