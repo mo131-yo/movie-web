@@ -1,3 +1,5 @@
+"use client"
+
 import Link from 'next/link';
 import { IoWarning } from "react-icons/io5";
 import { GoArrowLeft } from "react-icons/go";
@@ -20,10 +22,16 @@ export const fetchMovieById = async (id: string) => {
   return res.json();
 };
 
-export default async function WatchPage({ params }: Props) {
+ export default async function WatchPage({ params }: Props) {
   const { id } = await params;
   const movie = await fetchMovieById(id);
-  const videoSrc = `https://www.vidking.net/embed/movie/${id}`;
+  // const videoSrc = `https://www.vidking.net/embed/movie/${id}`;
+
+const origin = typeof window !== 'undefined' ? window.location.origin : '';
+const subUrl = `${origin}/spirited-away.vtt`;
+const encodedSubUrl = encodeURIComponent(subUrl);
+
+const videoSrc = `https://www.vidking.net/embed/movie/${id}?sub.Mongolian=${encodedSubUrl}`;
 
   return (
     <div className="min-h-screen bg-black flex flex-col">
