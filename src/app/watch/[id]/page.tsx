@@ -102,7 +102,7 @@ export default async function WatchPage({ params }: Props) {
 
   // Сервер талд window байхгүй тул Vercel-ийн URL-аа ашиглана
   const domain = process.env.NEXT_PUBLIC_SITE_URL || 'https://movie-web-sigma-seven.vercel.app';
-  const subUrl = `${domain}/spirited-away.vtt`;
+  const subUrl = `${domain}/sprited-away.vtt`;
   const encodedSubUrl = encodeURIComponent(subUrl);
 
   const videoSrc = `https://www.vidking.net/embed/movie/${id}?sub.Mongolian=${encodedSubUrl}`;
