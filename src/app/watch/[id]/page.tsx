@@ -117,6 +117,7 @@ export default async function WatchPage({ params }: Props) {
               className="absolute top-0 left-0 w-full h-full"
               allowFullScreen
               scrolling="no"
+              referrerPolicy="origin"
               allow="autoplay; encrypted-media"
               sandbox="allow-forms allow-pointer-lock allow-same-origin allow-scripts allow-top-navigation"
             />
