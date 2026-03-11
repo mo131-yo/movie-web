@@ -2,11 +2,11 @@
       import Link from "next/link";
       import {Same} from "@/app/components/Same"
       import MovieCrew from "@/app/components/MovieCrew";
-      import {TrailerModal} from "@/app/components/TrailerModal";
       import TrailerSection from "@/app/components/TrailerSection";
       import { FaStar } from "react-icons/fa";
-import { Button } from "@/components/ui/button";
-import { HiArrowSmallRight } from "react-icons/hi2";
+      import { Button } from "@/components/ui/button";
+      import { HiArrowSmallRight } from "react-icons/hi2";
+      import { FaPlay } from "react-icons/fa";
 
       export type Movie={
         id: number;
@@ -59,7 +59,7 @@ import { HiArrowSmallRight } from "react-icons/hi2";
         export default async function MoviePage({ params }: Props) {
         const { id } = await params
         const movie = await fetchMovieById(id);
-
+        const videoSrc = `https://www.vidking.net/embed/movie/${id}`;
        
        return (
     <div className="max-w-full overflow-hidden pl-4">
@@ -161,14 +161,14 @@ import { HiArrowSmallRight } from "react-icons/hi2";
           </div>
         </div>
 
-        <div className="hidden sm:block flex-1 relative overflow-hidden rounded-2xl group shadow-lg min-h-[300px]">
+        <div className="hidden sm:block flex-1 relative overflow-hidden rounded-2xl group shadow-lg min-h-75">
           <Image
             src={movie.backdrop_path ? `https://image.tmdb.org/t/p/original${movie.backdrop_path}` : "/no-image.png"}
             alt={movie.title}
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-6">
+          <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent flex items-end p-6">
             <div className="flex items-center gap-4 cursor-pointer">
               <TrailerSection movieId={movie.id} title={movie.title} />
               <span className="text-white text-lg font-bold drop-shadow-md">Watch Trailer</span>
@@ -224,6 +224,10 @@ import { HiArrowSmallRight } from "react-icons/hi2";
           </div>
         </div>
       </div>
+
+    <Link href={`/watch/${id}`}>
+      <button className="w-30 h-10 bg-white text-black rounded-full">Watch</button>
+    </Link>
 
       <div className="px-4 sm:ml-10 sm:px-10 lg:px-0 mt-10">
         <div className="pl-1 sm:pl-10">
