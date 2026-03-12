@@ -3,14 +3,13 @@
 import { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
 
-// Төрлүүдийг ингэж тодорхойлбол TypeScript алдаа гаргахгүй
 interface StickyHeaderProps {
   title: string;
   release_date: string | number;
   runtime: number;
   vote_average: number;
   vote_count: number;
-  formatTime: (minutes: number) => string; // Функцийн төрлийг ингэж зааж өгнө
+  formatTime: (minutes: number) => string;
 }
 
 export default function MovieStickyHeader({
