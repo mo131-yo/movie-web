@@ -82,6 +82,12 @@
 // type Props = {
 //   params: Promise<{ id: string }>;
 // };
+import { IoWarning } from "react-icons/io5";
+import { FaPlay } from "react-icons/fa";
+
+type Props = {
+  params: Promise<{ id: string }>; 
+};
 
 // export const fetchMovieById = async (id: string) => {
 //   const res = await fetch(`${process.env.TMDB_BASE_URL}/movie/${id}`, {

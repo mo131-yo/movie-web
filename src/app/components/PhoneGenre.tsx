@@ -24,11 +24,11 @@ export default function Phonegenre() {
     const idsFromUrl = (params.id as string)
       .split(",")
       .map(id => Number(id))
-      .filter(id => !isNaN(id)); // ЭНД: Тоо биш утгуудыг (NaN) шүүж хаяна
+      .filter(id => !isNaN(id)); 
     
     setSelectedGenres(idsFromUrl);
   } else {
-    setSelectedGenres([]); // Хэрэв ID байхгүй бол хоосон болгоно
+    setSelectedGenres([]); 
   }
 }, [params.id]);
 
@@ -63,13 +63,11 @@ export default function Phonegenre() {
   };
 
   const applyFilter = () => {
-  // Зөвхөн тоон утгуудыг шүүж аваад URL руу явуулах
   const validGenres = selectedGenres.filter(id => !isNaN(id) && id !== 0);
 
   if (validGenres.length > 0) {
     router.push(`/genre/${validGenres.join(",")}`);
   } else {
-    // Хэрэв сонгосон жанр байхгүй бол "all" эсвэл үндсэн зам руу буцна
     router.push(`/genre/all`); 
   }
   setOpen(false);
