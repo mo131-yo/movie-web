@@ -63,36 +63,14 @@ const idFromUrl = rawId.includes("NaN") ? "all" : rawId
     fetchMovies();
   }, [idFromUrl]); 
 
-//   const handleToggleGenre = (genreId: number) => {
-//    let selectedIds = (idFromUrl !== "all" && idFromUrl !== "") 
-//     ? idFromUrl.split(/[|,]/).filter(id => id !== "NaN" && id !== "") 
-//     : [];
-
-//     const genreIdStr = String(genreId);
-    
-//     if (selectedIds.includes(genreIdStr)) {
-//       selectedIds = selectedIds.filter((id) => id !== genreIdStr);
-//     } else {
-//       selectedIds = [...selectedIds, genreIdStr];
-//     }
-
-//   if (selectedIds.length > 0) {
-//     // Давхардсан ID байхгүй эсэхийг шалгаад залгах
-//     const uniqueIds = Array.from(new Set(selectedIds));
-//     router.push(`/genre/${uniqueIds.join(",")}`);
-//   } else {
-//     router.push(`/genre/all`);
-//   }
-// };
 
 const handleToggleGenre = (genreId: number) => {
-    // ID-нуудыг салгахдаа NaN, undefined-ыг давхар шүүх
     let selectedIds = (idFromUrl !== "all" && idFromUrl !== "") 
       ? idFromUrl.split(/[|,]/).filter(val => 
           val !== "NaN" && 
           val !== "undefined" && 
           val !== "" && 
-          !isNaN(Number(val)) // Зөвхөн тоо эсэхийг шалгана
+          !isNaN(Number(val)) 
         ) 
       : [];
 

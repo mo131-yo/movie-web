@@ -38,7 +38,7 @@ export const SearchResult = ({ keyword, results, onClose }: Props) => {
                   className="rounded"
                 />
               ) : (
-                <div className="w-[50px] h-[75px] bg-gray-300 dark:bg-gray-700 rounded flex items-center justify-center text-[10px] text-gray-500">
+                <div className="w-12.5 h-18.75 bg-gray-300 dark:bg-gray-700 rounded flex items-center justify-center text-[10px] text-gray-500">
                   No Image
                 </div>
               )}

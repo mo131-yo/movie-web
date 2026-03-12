@@ -32,7 +32,7 @@ export default function MovieStickyHeader({
 
   return (
     <div
-      className={`fixed top-0 left-0 right-0 z-[1000] transition-all duration-300 ease-in-out px-4 sm:px-10 lg:px-20 flex flex-row justify-between items-center bg-white dark:bg-[#0a0a0a] border-b dark:border-gray-800 ${
+      className={`fixed top-0 left-0 right-0 z-1000 transition-all duration-300 ease-in-out px-4 sm:px-10 lg:px-20 flex flex-row justify-between items-center bg-white dark:bg-[#0a0a0a] border-b dark:border-gray-800 ${
         isShrunk ? "py-2 h-16 shadow-lg bg-opacity-90 backdrop-blur-md" : "py-6 h-32"
       }`}
     >
