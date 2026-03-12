@@ -276,8 +276,7 @@ export const Bigpic = ({ movie }: BigpicProps) => {
           <span className="text-yellow-400 font-bold mb-3 block">⭐ {movie.vote_average?.toFixed(1)}</span>
           <p className="text-sm opacity-90 line-clamp-3 mb-4">{movie.overview}</p>
 
-          <div className="flex gap-3">
-            {/* <button onClick={handleTrailerClick} className="bg-white text-black px-5 py-2 rounded font-semibold hover:bg-gray-700 hover:text-white "> */}
+          <div className="flex gap-3 pl-4">
             <button onClick={handleTrailerClick} className="custom-btn btn-12 ">
                <span>Watch!</span><span>Trailer</span>
             </button>

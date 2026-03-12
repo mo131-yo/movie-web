@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header } from "@/app/components/Header";
 import { Footer } from "@/app/components/Footer";
 import { ThemeProvider } from "@/components/ui/theme-provider"
+import { FooterBar } from "./components/FooterBar";
 
 
 const geistSans = Geist({
@@ -37,6 +38,11 @@ export default function RootLayout({
           <Header />
           {children}
           <Footer/>
+          <div className="fixed bottom-6 left-0 w-full z-[999] flex justify-center pointer-events-none">
+              <div className="pointer-events-auto filter drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+                <FooterBar />
+              </div>
+           </div>
         </ThemeProvider>
       </body>
     </html>

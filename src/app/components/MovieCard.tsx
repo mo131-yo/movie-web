@@ -1,52 +1,48 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { FaPlay, FaStar } from "react-icons/fa";
 import { TrailerModal } from "./TrailerModal";
 
-type Movie = {
-  id: number;
-  title: string;
-  poster_path: string | null;
-  vote_average: number;
-};
-
-export const MovieCard = ({ movie }: { movie: Movie }) => {
+export const MovieCard = ({ movie }: { movie: any }) => {
   const [trailerUrl, setTrailerUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const ratingPercentage = Math.round(movie.vote_average * 10);
+  
+  const getRatingColor = (percent: number) => {
+    if (percent >= 70) return "#21d07a";
+    if (percent >= 40) return "#d2d531";
+    return "#db2360"; // Улаан
+  };
 
   const handleFetchTrailer = async (e: React.MouseEvent) => {
     e.preventDefault();
     try {
       setLoading(true);
       setError(null);
-
       const res = await fetch(
         `https://api.themoviedb.org/3/movie/${movie.id}/videos`,
         {
-          headers: {
-            Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_API_KEY}`,
-          },
+          headers: { Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_API_KEY}` },
         }
       );
-
       const data = await res.json();
-      const trailer = data.results?.find(
-        (v: any) => v.type === "Trailer" && v.site === "YouTube"
-      );
+      const trailer = data.results?.find((v: any) => v.type === "Trailer" && v.site === "YouTube");
 
       if (trailer) {
         setTrailerUrl(`https://www.youtube.com/embed/${trailer.key}?autoplay=1`);
       } else {
-        setError("Олдсонгүй");
+        setError("Trailer oldsongui");
         setTimeout(() => setError(null), 2000);
       }
     } catch (err) {
-      setError("Алдаа гарлаа");
+      setError("Aldaa garlaa");
     } finally {
       setLoading(false);
     }
@@ -55,6 +51,8 @@ export const MovieCard = ({ movie }: { movie: Movie }) => {
   return (
     <>
       <motion.div
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
         initial="initial"
         whileHover={{ 
           scale: 1.15, 
@@ -72,11 +70,42 @@ export const MovieCard = ({ movie }: { movie: Movie }) => {
         </svg>
 
         <Link href={`/movie/${movie.id}`}>
-          <div className="relative aspect-2/3 w-full">
+          <div className="relative aspect-2/3 w-full overflow-hidden">
             <Image
               src={movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : "/no-image.png"}
-              alt={movie.title} fill className="object-cover"
+              alt={movie.title} fill className={`object-cover transition-all duration-500 ${isHovered ? "blur-sm brightness-50" : ""}`}
             />
+            
+            <div className="absolute top-2 left-2 z-30 scale-90 origin-top-left">
+              <div className="relative w-12 h-12 bg-[#081c22] rounded-full flex items-center justify-center border-2 border-[#081c22] shadow-2xl">
+                <svg className="w-full h-full transform -rotate-90">
+                  <circle cx="24" cy="24" r="20" stroke="rgba(255,255,255,0.1)" strokeWidth="3" fill="transparent" />
+                  <motion.circle
+                    cx="24" cy="24" r="20" stroke={getRatingColor(ratingPercentage)} strokeWidth="3" fill="transparent"
+                    strokeDasharray={126}
+                    initial={{ strokeDashoffset: 126 }}
+                    animate={{ strokeDashoffset: 126 - (126 * ratingPercentage) / 100 }}
+                    transition={{ duration: 1 }}
+                  />
+                </svg>
+                <div className="absolute text-white font-bold text-[11px] flex items-start">
+                  {ratingPercentage}<span className="text-[6px] mt-0.5">%</span>
+                </div>
+              </div>
+            </div>
+
+            <AnimatePresence>
+              {isHovered && (
+                <motion.div 
+                  initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                  className="absolute inset-0 flex items-center justify-center p-4 z-10"
+                >
+                  <p className="text-white text-center text-lg font-black uppercase tracking-tighter drop-shadow-lg">
+                    {movie.title}
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </Link>
 
@@ -87,7 +116,6 @@ export const MovieCard = ({ movie }: { movie: Movie }) => {
           </div>
         </div>
 
-        {/* Trailer Button */}
         <button
           onClick={handleFetchTrailer}
           disabled={loading}
@@ -98,7 +126,7 @@ export const MovieCard = ({ movie }: { movie: Movie }) => {
           ) : (
             <FaPlay />
           )}
-          {loading ? "Хайж байна..." : "Watch Trailer"}
+          {loading ? "Unshij bn" : "Watch Trailer"}
         </button>
 
         {error && (

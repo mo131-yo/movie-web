@@ -91,17 +91,17 @@
           }`}
       </style>
         <div className={`flex items-center transition-all ${isFocused ? "hidden sm:flex" : "flex"}`}>
-          <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.25 }}>
-              <Link href={"/"} className="flex items-center gap-2">
-                <TbMovie className="w-6 h-6 text-indigo-700 animated-text-fill" />
-                <div className="hidden sm:block">
-                  <div className='flex leading-tight text-2xl font-black italic tracking-tighter'>
-                    <p className="animated-text-fill ">Mo</p>
-                    <p className="animated-text-fill-1 ml-1">Movie</p>  
-                   </div>
-                </div>
+          <div className={`flex items-center transition-all ${isFocused ? "hidden sm:flex" : "flex"}`}>
+          <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.2 }}>
+            <Link href={"/"} className="flex items-center gap-2">
+              <div className="px-2 py-1 rounded-[4px] flex items-center justify-center shadow-lg bg-blue-600">
+                <span className="text-black font-black italic tracking-tighter text-xl leading-none">
+                  MWS
+                </span>
+              </div>
             </Link>
           </motion.div>
+        </div>
         </div>
   <div>
   <div className="flex items-center justify-between w-full gap-2">

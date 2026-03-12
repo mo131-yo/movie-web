@@ -225,3 +225,110 @@
         .btn-6 span:hover:after {
           width: 100%;
         }
+
+
+
+        .icon {
+    width: 2.6em;
+    height: 2.6em;
+    /* Stroke өнгийг тод болгох */
+    stroke: white !important; 
+    fill: none;
+    /* Stroke зузааныг тохируулах */
+    stroke-width: 2px; 
+    stroke-miterlimit: 10;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    /* Animation-д зориулсан */
+    stroke-dasharray: 400;
+    stroke-dashoffset: 0;
+    /* SVG доторх path-ууд харагдахыг баталгаажуулах */
+    display: block;
+}
+
+.menu {
+    display: flex;
+    position: relative;
+    height: 4.2em; /* Өндрийг бага зэрэг намсгаж илүү авсаархан болгов */
+    background-color: #1d1d27;
+    border-radius: 30px;
+    padding: 0 1em;
+    overflow: visible; /* Идэвхтэй икон дээшээ гарахад заавал байх ёстой */
+    align-items: center;
+    justify-content: center;
+}
+
+.menu__item {
+    all: unset;
+    flex-grow: 1;
+    z-index: 100;
+    display: flex;
+    cursor: pointer;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.6s cubic-bezier(0.3, 0.5, 0.2, 1);
+}
+
+/* Идэвхтэй товчлуур дээшээ үсрэх */
+.menu__item.active {
+    transform: translateY(-0.8em);
+}
+
+.icon {
+    width: 2.2em;
+    height: 2.2em;
+    fill: none;
+    /* Энд байсан саарал өнгийг transparent болгов */
+    stroke: transparent; 
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 400;
+    stroke-dashoffset: 0;
+    transition: stroke 0.3s ease;
+}
+
+/* Идэвхтэй үед цагаан болж зурагдах эффект */
+.menu__item.active .icon {
+    stroke: #ffffff !important; /* !important нь React-ийн style-аас давуу эрхтэй ажиллуулна */
+    animation: strok 1.2s ease-in-out forwards;
+}
+
+.menu__border {
+    left: 0;
+    bottom: 99%; /* Цэсний дээд ирмэг дээр яг таарна */
+    width: 163.5px; /* JS дээрх тоотой таарч байх ёстой */
+    height: 38px;
+    position: absolute;
+    background-color: #1d1d27;
+    clip-path: url(#menu-clip);
+    transition: transform 0.7s cubic-bezier(0.3, 0.5, 0.2, 1);
+    will-change: transform;
+}
+
+/* Идэвхтэй иконы ард гарах өнгөт тойрог */
+.menu__item::before {
+    content: "";
+    z-index: -1;
+    width: 3.5em;
+    height: 3.5em;
+    border-radius: 50%;
+    position: absolute;
+    transform: scale(0);
+    transition: background-color 0.5s, transform 0.5s cubic-bezier(0.3, 0.5, 0.2, 1.5);
+}
+
+.menu__item.active::before {
+    transform: scale(1);
+    background-color: var(--bgColorItem);
+}
+
+@keyframes strok {
+    0% {
+        stroke-dashoffset: 400;
+    }
+    100% {
+        stroke-dashoffset: 0;
+    }
+}

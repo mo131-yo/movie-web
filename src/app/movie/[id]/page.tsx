@@ -225,9 +225,12 @@
           </div>
         </div>
 
-      <Link href={`/watch/${id}`}>
-        <button className="w-30 h-10 bg-white text-black rounded-full">Watch</button>
-      </Link>
+      <Link href={`/watch/${id}`} className="inline-block pl-3 pt-8 sm:pl-20 sm:pt-10">
+          <button className="px-5 h-8 text-[10px] md:px-7 md:h-9 md:text-[12px] lg:px-10 lg:h-11 lg:text-sm bg-black text-white dark:bg-white dark:text-black font-black uppercase  rounded-full shadow-lg dark:hover:bg-gray-600 hover:bg-gray-600 hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2">
+            <FaPlay className="text-[10px] md:text-[12px]" /> 
+            <span>Watch</span>
+          </button>
+        </Link>
 
         <div className="px-4 sm:ml-10 sm:px-10 lg:px-0 mt-10">
           <div className="pl-1 sm:pl-10">

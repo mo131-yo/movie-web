@@ -5,6 +5,7 @@ import { FiPhone } from "react-icons/fi";
 import { MdEmail } from "react-icons/md";
 import { FaFacebook, FaGithub, FaInstagram } from "react-icons/fa";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 export const Footer = () => {
   return (
@@ -36,14 +37,16 @@ export const Footer = () => {
       </style>
       <div className="flex flex-col gap-10 lg:flex-row lg:justify-between">
         <div className="flex flex-col gap-3">
-          <Link href={"/"} className="flex items-center gap-2">
-            <TbMovie className="w-6 h-6" />
-              <div className='flex leading-tight text-2xl font-black italic tracking-tighter'>
-                <p className="animated-text-fill ">Movie</p>
-                <p className="animated-text-fill-1 ml-1">Z</p>  
+             <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.2 }}>
+            <Link href={"/"} className="flex items-center gap-2">
+              <div className="bg-blue-400 px-2 py-1 rounded-[4px] flex items-center justify-center shadow-lg">
+                <span className="text-black font-black italic tracking-tighter text-xl leading-none">
+                  MWS
+                </span>
               </div>
-          </Link>
-          <p className="text-sm opacity-80">© 2026 Movie Z created by in Pinecone.</p>
+            </Link>
+          </motion.div>
+          <p className="text-sm opacity-80">© 2026 Movie Z created by in Pinecone student.</p>
         </div>
         <div className="flex flex-col gap-4">
           <p className="font-semibold">Contact Information</p>
@@ -59,23 +62,23 @@ export const Footer = () => {
             <FiPhone className="w-4 h-4 mt-1" />
             <div>
               <p className="font-medium text-sm">Phone</p>
-              <p className="text-sm opacity-80">+976 (11) 123-4567</p>
+              <p className="text-sm opacity-80">+976 55128270</p>
             </div>
           </div>
         </div>
         <div className="flex flex-col gap-4">
           <p className="font-semibold text-sm sm:text-xl">Follow us</p>
           <div className='flex gap-4'>
-              <a href="#" className="social-icon-box w-9 h-9 sm:w-12 sm:h-12 rounded-full bg-gray-300 dark:bg-white flex items-center justify-center transition-all duration-300 hover:bg-[#3B5998] group">
+              <a href="#" className="social-icon-box w-9 h-9 sm:w-12 sm:h-12 rounded-full bg-gray-300  flex items-center justify-center transition-all duration-300 hover:bg-[#3B5998] group">
                 <i className="fa fa-facebook text-[#595959] text-xl transition-all duration-500 group-hover:rotate-360 group-hover:text-white">
                   <FaFacebook />
                 </i>
               </a>
-              <a href="#" className="social-icon-box w-9 h-9 sm:w-12 sm:h-12 rounded-full bg-gray-300 dark:bg-white flex items-center justify-center transition-all duration-300 hover:bg-gray-500 group">
+              <a href="#" className="social-icon-box w-9 h-9 sm:w-12 sm:h-12 rounded-full bg-gray-300 flex items-center justify-center transition-all duration-300 hover:bg-gray-500 group">
                 <i className="fa fa-linkedin text-[#595959] text-xl transition-all duration-500 group-hover:rotate-360 group-hover:text-white"><FaGithub /></i>
               </a>
 
-              <a href="#" className="social-icon-box w-9 h-9 sm:w-12 sm:h-12 rounded-full bg-gray-300 dark:bg-white flex items-center justify-center transition-all duration-300 hover:bg-[#E1306C] group">
+              <a href="#" className="social-icon-box w-9 h-9 sm:w-12 sm:h-12 rounded-full bg-gray-300 flex items-center justify-center transition-all duration-300 hover:bg-[#E1306C] group">
                 <i className="fa fa-instagram text-[#595959] text-xl transition-all duration-500 group-hover:rotate-360 group-hover:text-white"><FaInstagram /></i>
               </a>
            </div>
