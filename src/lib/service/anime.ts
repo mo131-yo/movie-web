@@ -7,7 +7,6 @@ const axiosInstance = axios.create({
 });
 
 
-// TMDB API хүсэлтийг ингэж засаад үзээрэй
 export const fetchPopularTV = async () => {
   try {
     const { data } = await axios.get(`${process.env.NEXT_PUBLIC_TMDB_BASE_URL}/tv/popular`, {
@@ -19,7 +18,6 @@ export const fetchPopularTV = async () => {
     });
     return data.results;
   } catch (error: any) {
-    // Алдааг дэлгэрэнгүй харахын тулд console.log-оо ингэж засаарай
     console.error("TMDB Error Details:", error.response?.data || error.message);
     return [];
   }
@@ -54,7 +52,6 @@ export const fetchStreamLink = async (episodeId: string) => {
 
 export const fetchTopAnime = async () => {
   try {
-    // 429 алдаанаас сэргийлж түр зуур хүлээх эсвэл cache шалгах логик нэмж болно
     const { data } = await axios.get(`${JIKAN_API}/top/anime`);
     return data.data;
   } catch (error: any) {
@@ -66,7 +63,6 @@ export const fetchTopAnime = async () => {
 };
 
 
-// TMDB-ээс тухайн бүлгийн бүх ангийг авах функц
 export const fetchSeasonEpisodes = async (tvId: string, seasonNumber: string) => {
   const res = await fetch(
     `https://api.themoviedb.org/3/tv/${tvId}/season/${seasonNumber}?language=en-US`,

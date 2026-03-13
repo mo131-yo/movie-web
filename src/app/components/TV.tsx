@@ -1,15 +1,13 @@
 "use client";
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { TVCard } from './TVCard';
+import axios from 'axios';
 
-// 1. TV Series-ийн төрлийг тодорхойлно
 interface TVSeries {
   id: number;
   name: string;
   poster_path: string;
   vote_average: number;
-  // бусад хэрэгтэй талбаруудаа нэмж болно
 }
 
 export default function TVSeriesSection() {
@@ -20,7 +18,6 @@ export default function TVSeriesSection() {
 
 useEffect(() => {
   const getTVData = async () => {
-    // 1. Түлхүүр уншигдаж байгаа эсэхийг шалгах (Browser console дээр харна)
     console.log("Түлхүүр шалгах:", TMDB_API_KEY);
 
     if (!TMDB_API_KEY) {
@@ -34,7 +31,6 @@ useEffect(() => {
       );
       setSeries(response.data.results);
     } catch (error: any) {
-      // 2. Алдааг дэлгэрэнгүй харах
       console.error("Алдааны мэдээлэл:", error.response?.data);
       console.error("TV Series татахад алдаа гарлаа:", error);
     }

@@ -7,7 +7,7 @@ export const fetchPopularTV = async () => {
   try {
     const { data } = await axios.get(`${BASE_URL}/tv/popular`, {
       params: {
-        api_key: API_KEY, // Одоо энд d92e7020... гэсэн богино түлхүүр очиж байгаа
+        api_key: API_KEY,
         language: 'en-US',
         page: 1
       }

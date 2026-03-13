@@ -35,7 +35,6 @@ export default async function Home() {
           </div>
           <Popular />
         </section>
-<MovieMap/>
         <section>
           <div className="flex justify-end px-4 sm:px-8 lg:px-20 mb-[-40px]">
             <Link href="/category/upcoming">
@@ -62,6 +61,7 @@ export default async function Home() {
           <Toprated />
         </section>
         <Manga />
+        <MovieMap/>
       </div>
     </div>
   );

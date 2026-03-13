@@ -1,7 +1,6 @@
 import axios from "axios";
 import axiosInstance from "./axios-instance";
 
-// Манга хайх (Jikan API)
 export const searchManga = async (query: string) => {
   try {
     const { data } = await axios.get(`https://api.jikan.moe/v4/manga?q=${query}&limit=10`);
@@ -12,10 +11,8 @@ export const searchManga = async (query: string) => {
   }
 };
 
-// Манганы бүлгүүд болон зургуудыг авах (Consumet API)
 export const fetchMangaChapters = async (mangaId: string) => {
   try {
-    // Consumet-ийн манга провайдер (жишээ нь: mangadex)
     const { data } = await axiosInstance.get(`/manga/mangadex/info/${mangaId}`);
     return data;
   } catch (error) {
