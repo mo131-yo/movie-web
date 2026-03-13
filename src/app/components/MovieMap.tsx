@@ -5,12 +5,10 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
 
-// Routing-ийг зөвхөн хөтөч дээр ачаалах
 if (typeof window !== "undefined") {
   require("leaflet-routing-machine");
 }
 
-// 1. Хэрэглэгчийн байршлыг харуулах ТУСГАЙ ИКОН (Цэнхэр цэг)
 const userIcon = L.divIcon({
   className: 'custom-user-icon',
   html: `<div class="relative flex h-5 w-5">
@@ -21,9 +19,8 @@ const userIcon = L.divIcon({
   iconAnchor: [10, 10],
 });
 
-// 2. Кино театрын стандарт икон
 const theaterIcon = L.icon({
-  iconUrl: 'https://cdn-icons-png.flaticon.com/512/2503/2503508.png', // Киноны икон
+  iconUrl: 'https://cdn-icons-png.flaticon.com/512/2503/2503508.png', 
   iconSize: [32, 32],
   iconAnchor: [16, 32],
   popupAnchor: [0, -32]
@@ -45,12 +42,10 @@ const RoutingMachine = ({ userLoc, targetLoc }: { userLoc: [number, number], tar
   const map = useMap();
 
   useEffect(() => {
-    // 1. Газрын зураг эсвэл очих цэг байхгүй бол юу ч хийхгүй
     if (!map || !targetLoc) return;
 
     const leafletAny = L as any;
     
-    // 2. Шинэ routing үүсгэх
     const routingControl = leafletAny.Routing.control({
       waypoints: [
         L.latLng(userLoc[0], userLoc[1]),
@@ -66,16 +61,11 @@ const RoutingMachine = ({ userLoc, targetLoc }: { userLoc: [number, number], tar
       createMarker: () => null,
     });
 
-    // 3. Зөвхөн map бэлэн үед нэмэх
     routingControl.addTo(map);
 
-    // 4. Цэвэрлэх функц (Cleanup)
   return () => {
   if (map && routingControl) {
     try {
-      // hasLayer() дотор параметр нэхээд байгаа тул 
-      // зөвхөн map объект байгаа эсэхийг шалгаад шууд removeControl хийнэ.
-      // Leaflet доторх control-ууд өөрсдөө map-тайгаа холбоотой эсэхээ шалгадаг.
       if (typeof map.removeControl === 'function') {
         map.removeControl(routingControl);
       }
@@ -89,7 +79,6 @@ const RoutingMachine = ({ userLoc, targetLoc }: { userLoc: [number, number], tar
   return null;
 };
 
-// Газрын зургийг хэрэглэгч рүү төвлөрүүлэх туслах компонент
 const MapCenterer = ({ coords }: { coords: [number, number] }) => {
   const map = useMap();
   const centerMap = () => map.setView(coords, 15, { animate: true });
@@ -111,7 +100,6 @@ export default function MovieMap() {
   const [urgooMovies, setUrgooMovies] = useState<any[]>([]);
 
 useEffect(() => {
-  // Өргөөгийн кинонуудыг татах
   fetch('/api/movies/urgoo')
     .then(res => res.json())
     .then(data => {
@@ -145,7 +133,6 @@ useEffect(() => {
           attribution='&copy; OpenStreetMap contributors'
         />
         
-        {/* 3. Хэрэглэгчийн байршлыг онцлох Marker */}
         <Marker position={userLocation} icon={userIcon}>
           <Popup>
             <div className="w-[300px] h-[400px]">
@@ -157,7 +144,6 @@ useEffect(() => {
             </Popup>
         </Marker>
 
-        {/* Кино театрууд */}
         {THEATERS.map((theater) => (
           <Marker 
             key={theater.id} 
@@ -190,7 +176,6 @@ useEffect(() => {
 
         {targetLocation && <RoutingMachine userLoc={userLocation} targetLoc={targetLocation} />}
         
-        {/* Хэрэглэгч рүү үсрэх товчлуур */}
         <MapCenterer coords={userLocation} />
       </MapContainer>
     </div>

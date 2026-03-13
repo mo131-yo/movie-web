@@ -164,7 +164,7 @@ export default function WatchPage({ animeTitle }: { animeTitle: string }) {
   try {
     const stream = await fetchStreamLink(episodeId);
     if (stream && stream.url) {
-      setVideoUrl(stream.url); // Стрим линкийг тоглуулагч руу дамжуулна
+      setVideoUrl(stream.url); 
     } else {
       alert("Видео линк олдсонгүй.");
     }
@@ -177,14 +177,11 @@ export default function WatchPage({ animeTitle }: { animeTitle: string }) {
     const initWatchPage = async () => {
       setLoading(true);
       
-      // 1. Анимэ-ийн нэрээр Consumet-ээс хайлт хийх
       const searchResults = await searchAnime(animeTitle);
       
       if (searchResults && searchResults.length > 0) {
-        // 2. Хайлтын хамгийн эхний илэрцийг (хамгийн ойрхон нэр) сонгох
         const consumetId = searchResults[0].id;
         
-        // 3. Тухайн ID-аар ангиудын мэдээллийг авах
         const info = await fetchAnimeInfo(consumetId);
         if (info && info.episodes) {
           setEpisodes(info.episodes);
@@ -196,13 +193,11 @@ export default function WatchPage({ animeTitle }: { animeTitle: string }) {
     if (animeTitle) initWatchPage();
   }, [animeTitle]);
 
-  // ... handleEpisodeClick функц хэвээрээ байна ...
 
   if (loading) return <div className="text-white text-center p-10">Ачаалж байна...</div>;
 
   return (
     <div className="p-4">
-      {/* Видео тоглуулагч */}
       <div className="aspect-video bg-black rounded-lg overflow-hidden">
         {videoUrl ? (
           <ReactPlayer url={videoUrl} controls width="100%" height="100%" />
@@ -213,7 +208,6 @@ export default function WatchPage({ animeTitle }: { animeTitle: string }) {
         )}
       </div>
 
-      {/* Ангиудын жагсаалт */}
       <div className="mt-6 grid grid-cols-4 md:grid-cols-10 gap-2">
         {episodes.map((ep: any) => (
           <button 
@@ -228,40 +222,3 @@ export default function WatchPage({ animeTitle }: { animeTitle: string }) {
     </div>
   );
 }
-
-
-
-
-// "use client";
-// import { useEffect, useState } from "react";
-// import { useParams } from "next/navigation";
-// import { fetchStreamLink } from "@/lib/service/anime";
-
-// export default function WatchAnime() {
-//   const { episodeId } = useParams();
-//   const [videoUrl, setVideoUrl] = useState("");
-
-//   useEffect(() => {
-//     const getLink = async () => {
-//       const linkData = await fetchStreamLink(episodeId as string);
-//       if (linkData) setVideoUrl(linkData.url);
-//     };
-//     getLink();
-//   }, [episodeId]);
-
-//   return (
-//     <div className="min-h-screen bg-black flex items-center justify-center p-4">
-//       <div className="w-full max-w-5xl aspect-video bg-gray-900 rounded-2xl overflow-hidden shadow-2xl">
-//         {videoUrl ? (
-//           <iframe 
-//             src={videoUrl} 
-//             className="w-full h-full" 
-//             allowFullScreen 
-//           />
-//         ) : (
-//           <div className="flex items-center justify-center h-full text-white">Линкийг ачаалж байна...</div>
-//         )}
-//       </div>
-//     </div>
-//   );
-// }
