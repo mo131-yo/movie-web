@@ -19,8 +19,8 @@ export default async function Home() {
       
         {/* <Hero /> */}
         
-          <Anime />
-      <TV />
+          {/* <Anime />
+      <TV /> */}
 
       <div className="space-y-10 pb-20 mt-10">
         <section>
@@ -60,8 +60,8 @@ export default async function Home() {
           </div>
           <Toprated />
         </section>
-        <Manga />
-        <MovieMap/>
+        {/* <Manga />
+        <MovieMap/> */}
       </div>
     </div>
   );

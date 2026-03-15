@@ -1,10 +1,10 @@
 // npm install leaflet leaflet-routing-machine @types/leaflet
 import axios from 'axios';
 
-const JIKAN_API = "https://api.jikan.moe/v4";
-const axiosInstance = axios.create({
-  baseURL: 'https://api-consumet-org.vercel.app/anime/gogoanime'
-});
+const   JIKAN_API = "https://api.jikan.moe/v4";
+// const axiosInstance = axios.create({
+//   baseURL: 'https://api-consumet-org.vercel.app/anime/gogoanime'
+// });
 
 
 export const fetchPopularTV = async () => {
@@ -23,18 +23,11 @@ export const fetchPopularTV = async () => {
   }
 };
 
-export const searchAnime = async (query: string) => {
-  try {
-    const { data } = await axiosInstance.get(`/${query}`);
-    return data.results;
-  } catch (error) {
-    return [];
-  }
-};
+
 
 export const fetchAnimeInfo = async (id: string) => {
   try {
-    const { data } = await axiosInstance.get(`/info/${id}`);
+    const { data } = await axios.get(`/info/${id}`);
     return data;
   } catch (error) {
     return null;
@@ -43,7 +36,7 @@ export const fetchAnimeInfo = async (id: string) => {
 
 export const fetchStreamLink = async (episodeId: string) => {
   try {
-    const { data } = await axiosInstance.get(`/watch/${episodeId}`);
+    const { data } = await axios.get(`/watch/${episodeId}`);
     return data.sources?.[0] || data.sources?.find((s: any) => s.quality === 'default');
   } catch (error) {
     return null;
@@ -52,7 +45,7 @@ export const fetchStreamLink = async (episodeId: string) => {
 
 export const fetchTopAnime = async () => {
   try {
-    const { data } = await axios.get(`${JIKAN_API}/top/anime`);
+    const { data } = await axios.get(`${JIKAN_API}/top/anime?filter=bypopularity`);
     return data.data;
   } catch (error: any) {
     if (error.response?.status === 429) {
@@ -61,6 +54,49 @@ export const fetchTopAnime = async () => {
     return [];
   }
 };
+
+// export const fetchPopularAnime = async () => {
+//   try {
+//     const { data } = await axios.get(`${JIKAN_API}/top/anime?filter=favorite`);
+//     return data.data;
+//   } catch (error: any) {
+//     if (error.response?.status === 429) {
+//       console.warn("Jikan API limit reached. Using backup data or empty array.");
+//     }
+//     return [];
+//   }
+// }
+
+export const fetchPopularAnime = async () => {
+  const query = `
+    query {
+      Page(page: 1, perPage: 10) {
+        media(type: ANIME, sort: POPULARITY_DESC) {
+          id
+          title { romaji english }
+          coverImage { extraLarge }
+          averageScore
+        }
+      }
+    }
+  `;
+
+  try {
+    const { data } = await axios.post("https://graphql.anilist.co", { query });
+    return data.data.Page.media;
+  } catch (error) {
+    return [];
+  }
+};
+
+export const fetchAiringNow = async () => {
+ try{
+  const {data}= await axios.get(`${JIKAN_API}/seasons/now?limit=20`);
+  return data.data;
+ }catch (error){
+  return []
+ }
+}
 
 
 export const fetchSeasonEpisodes = async (tvId: string, seasonNumber: string) => {
@@ -75,9 +111,50 @@ export const fetchSeasonEpisodes = async (tvId: string, seasonNumber: string) =>
   return res.json();
 };
 
+// 1. Хайлт хийх API (Search)
+export const searchAnime = async (query: string) => {
+  try {
+    const { data } = await axios.get(`${JIKAN_API}/anime?q=${query}&limit=20`);
+    return data.data;
+  } catch (error) {
+    console.error("Search error:", error);
+    return [];
+  }
+};
 
-// <Link href={isTV ? `/watch/tv/${id}/1/1` : `/watch/movie/${id}`}>
-//   <button className="flex items-center gap-2 px-10 py-4 bg-yellow-500 text-black rounded-full font-bold hover:bg-yellow-400">
-//     <FaPlay /> Watch {isTV ? "Series" : "Movie"}
-//   </button>
-// </Link>
+// 2. Төрлөөр шүүх API (Filter by Genre)
+// Төрлүүдийн ID: Action(1), Adventure(2), Comedy(4), Sci-Fi(24) гэх мэт
+export const fetchAnimeByGenre = async (genreId: number) => {
+  try {
+    const { data } = await axios.get(`${JIKAN_API}/anime?genres=${genreId}&order_by=score&sort=desc`);
+    return data.data;
+  } catch (error) {
+    console.error("Genre fetch error:", error);
+    return [];
+  }
+};
+
+// 3. Төрлүүдийн жагсаалтыг авах (Get All Genres)
+export const fetchGenreList = async () => {
+  try {
+    const { data } = await axios.get(`${JIKAN_API}/genres/anime`);
+    return data.data;
+  } catch (error) {
+    console.error("Genre list error:", error);
+    return [];
+  }
+};
+
+const BASE_URL = "https://api.themoviedb.org/3";
+const API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY;
+
+export const getAnimeDetails = async (id: string) => {
+  const res = await fetch(`${BASE_URL}/tv/${id}?api_key=${API_KEY}&language=en-US`);
+  return res.json();
+};
+
+// 2. Тухайн бүлгийн ангиудыг авах
+export const getSeasonEpisodes = async (id: string, seasonNumber: number) => {
+  const res = await fetch(`${BASE_URL}/tv/${id}/season/${seasonNumber}?api_key=${API_KEY}&language=en-US`);
+  return res.json();
+};

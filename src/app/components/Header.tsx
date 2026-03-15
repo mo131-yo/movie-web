@@ -103,6 +103,12 @@
           </motion.div>
         </div>
         </div>
+        <div className="flex gap-2">
+          <Link href={"/"} className="">Movie</Link>
+          <Link href={"/anime"}>Anime</Link>
+          <Link href={"/anime"}>Manga</Link>
+          <Link href={"/anime"}>TV Series</Link>
+        </div>
   <div>
   <div className="flex items-center justify-between w-full gap-2">
       <div className="hidden sm:block">
@@ -186,8 +192,8 @@
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="z-110">
-        <DropdownMenuItem onClick={() => setTheme("light")}>Light</DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>Dark</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setTheme("light")}>Light</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setTheme("dark")}>Dark</DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme("system")}>System</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

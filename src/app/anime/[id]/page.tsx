@@ -1,79 +1,48 @@
 "use client";
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
-import { fetchAnimeInfo, searchAnime } from "@/lib/service/anime";
-import axios from "axios";
+
+import { getAnimeDetails, getSeasonEpisodes } from "@/lib/service/anime";
+import Image from "next/image";
 import Link from "next/link";
 
-export default function AnimeDetails() {
-  const { id } = useParams(); 
-  const [anime, setAnime] = useState<any>(null); // MAL-аас ирэх мэдээлэл
-  const [episodes, setEpisodes] = useState<any[]>([]); // Consumet-ээс ирэх ангиуд
-
-  useEffect(() => {
-    const getAnimeData = async () => {
-      // 1. MAL-аас ерөнхий мэдээлэл авах
-      const { data: malRes } = await axios.get(`https://api.jikan.moe/v4/anime/${id}/full`);
-      const malData = malRes.data;
-      setAnime(malData);
-
-      // 2. Consumet-ээс видео линктэй ангиудыг олох
-      // MAL-ийн гарчгаар хайлт хийж Consumet ID-г олно
-      const searchResults = await searchAnime(malData.title);
-      if (searchResults && searchResults.length > 0) {
-        // Хамгийн эхний илэрц нь зөв анимэ байх магадлал өндөр
-        const consumetInfo = await fetchAnimeInfo(searchResults[0].id);
-        setEpisodes(consumetInfo.episodes || []);
-      }
-    };
-
-    if (id) getAnimeData();
-  }, [id]);
-
-  if (!anime) return <div className="p-20 text-white">Уншиж байна...</div>;
+export default async function AnimeDetailPage({ params }: { params: { id: string } }) {
+  const anime = await getAnimeDetails(params.id);
+  // Жишээ нь 1-р бүлгийн ангиудыг авах
+  const firstSeason = await getSeasonEpisodes(params.id, 1);
 
   return (
-    <div className="min-h-screen bg-[#1d1d27] text-white pb-20">
-      {/* Дээд хэсэг: Banner & Info */}
-      <div className="relative h-[400px] w-full">
-        <div className="absolute inset-0 bg-gradient-to-t from-[#1d1d27] to-transparent z-10" />
-        <img 
-          src={anime.images.jpg.large_image_url} 
-          className="w-full h-full object-cover opacity-30 blur-sm"
-          alt="backdrop"
-        />
+    <div className="p-10 text-white">
+      <h1 className="text-4xl font-bold">{anime.name}</h1>
+      
+      {/* Seasons-ийг сонгох хэсэг */}
+      <div className="mt-10">
+        <h2 className="text-2xl mb-4 text-yellow-500">Seasons</h2>
+        <div className="flex gap-4">
+          {anime.seasons.map((s: any) => (
+            <button key={s.id} className="px-4 py-2 bg-gray-800 rounded-lg">
+              {s.name} ({s.episode_count} eps)
+            </button>
+          ))}
+        </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-6 -mt-60 relative z-20">
-        <div className="flex flex-col md:flex-row gap-10">
-          <img 
-            src={anime.images.jpg.large_image_url} 
-            className="w-64 rounded-xl shadow-2xl border border-white/10"
-            alt={anime.title}
-          />
-          <div className="flex-1">
-            <h1 className="text-4xl font-bold mb-4">{anime.title}</h1>
-            <p className="text-gray-400 line-clamp-4 mb-6">{anime.synopsis}</p>
-            
-            {/* Ангиудын жагсаалт */}
-            <h2 className="text-2xl font-bold mb-4 text-cyan-500">Episodes</h2>
-            <div className="grid grid-cols-4 md:grid-cols-8 gap-3">
-              {episodes.length > 0 ? (
-                episodes.map((ep) => (
-                  <Link 
-                    key={ep.id} 
-                    href={`/watch/anime/${ep.id}`} // Видео тоглуулах хуудас руу шилжинэ
-                    className="bg-white/5 hover:bg-cyan-500 hover:text-black transition p-3 rounded-lg text-center font-bold border border-white/10"
-                  >
-                    {ep.number}
-                  </Link>
-                ))
-              ) : (
-                <p className="col-span-full text-gray-500 text-sm">Ангиуд олдсонгүй...</p>
-              )}
+      {/* Ангиудын жагсаалт */}
+      <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <h2 className="text-2xl col-span-full">Episodes</h2>
+        {firstSeason.episodes.map((ep: any) => (
+          <div key={ep.id} className="flex gap-4 bg-gray-900 p-3 rounded-xl border border-gray-800">
+            <div className="relative w-32 h-20 flex-shrink-0">
+               <Image 
+                 src={`https://image.tmdb.org/t/p/w300${ep.still_path}`} 
+                 fill className="object-cover rounded-lg" alt=""
+               />
+            </div>
+            <div>
+              <p className="text-blue-400 font-bold text-sm">Episode {ep.episode_number}</p>
+              <h4 className="font-medium text-gray-200">{ep.name}</h4>
+              <p className="text-xs text-gray-500 line-clamp-1">{ep.overview}</p>
             </div>
           </div>
-        </div>
+        ))}
       </div>
     </div>
   );

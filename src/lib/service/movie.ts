@@ -18,3 +18,20 @@ export const fetchPopularTV = async () => {
     return [];
   }
 };
+
+
+// https://api.themoviedb.org/3/list/{234752}?api_key={API_KEY}&language=en-US
+
+export const getOscarWinners = async (page = 1) => {
+  try {
+    // 234752 нь "academy award winner" гэсэн keyword-ийн ID
+    const response = await fetch(
+      `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_keywords=234752&page=${page}&language=mn-MN`
+    );
+    const data = await response.json();
+    return data.results;
+  } catch (error) {
+    console.error("Оскарын кинонуудын өгөгдөл авахад алдаа гарлаа:", error);
+    return [];
+  }
+};
