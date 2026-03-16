@@ -18,21 +18,18 @@ export const AnimePic = ({ anime }: { anime: Anime }) => {
 
   return (
     <div className="relative w-full h-[85vh] md:h-[90vh] overflow-hidden bg-black">
-      {/* 1. АРД ТАЛЫН БҮДГЭРҮҮЛСЭН ДЭВСГЭР (Энэ нь "муухай zoom"-ийг гоё харагдуулна) */}
       <div className="absolute inset-0">
         <Image
           src={anime.images.jpg.large_image_url}
           alt="blur background"
           fill
-          className="object-cover blur-2xl opacity-40 scale-110" // Зургийг бүдгэрүүлж, бүх талбайг дүүргэнэ
+          className="object-cover blur-2xl opacity-40 scale-110" 
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-black/60" />
       </div>
 
-      {/* 2. ТӨВ ХЭСЭГТ БАЙГАА ЖИНХЭНЭ ПОСТЕР */}
       <div className="relative h-full max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-center md:justify-start gap-10 px-8">
         
-        {/* Постер зураг - Zoom-дэхгүй, харин гоё aspect ratio-той */}
         <div className="relative w-[220px] h-[320px] md:w-[350px] md:h-[500px] flex-shrink-0 shadow-[0_0_50px_rgba(0,0,0,0.8)] rounded-lg overflow-hidden border border-white/10 group">
           <Image
             src={anime.images.jpg.large_image_url}
@@ -42,7 +39,6 @@ export const AnimePic = ({ anime }: { anime: Anime }) => {
           />
         </div>
 
-        {/* Текст мэдээлэл */}
         <div className="flex flex-col text-white max-w-2xl z-10">
           <div className="flex items-center gap-3 mb-4">
             <span className="bg-cyan-500 text-black text-[10px] px-2 py-1 rounded font-black uppercase">Trending</span>
@@ -70,7 +66,6 @@ export const AnimePic = ({ anime }: { anime: Anime }) => {
         </div>
       </div>
 
-      {/* 3. TRAILER MODAL */}
       {showTrailer && (
         <div className="fixed inset-0 bg-black/95 z-[100] flex items-center justify-center p-4 backdrop-blur-sm">
           <button onClick={() => setShowTrailer(false)} className="absolute top-10 right-10 text-white text-5xl hover:text-cyan-400 transition-colors">
@@ -85,7 +80,6 @@ export const AnimePic = ({ anime }: { anime: Anime }) => {
         </div>
       )}
 
-      {/* Доод талын "Fade to black" - Дараагийн хэсэгтэй уусгах */}
       <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-black to-transparent" />
     </div>
   );

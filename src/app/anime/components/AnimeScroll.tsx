@@ -5,8 +5,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/app/ui/Carousel";
-import { AnimePic } from "./Anime"; // Таны өмнөх Bigpic код
-
+import { AnimePic } from "./Anime";
 export type Anime = {
   mal_id: number;
   title: string;
@@ -43,28 +42,25 @@ export const Scroll = async () => {
       <Carousel 
         opts={{
           align: "start",
-          loop: true, // Тасралтгүй эргэх
+          loop: true,
         }}
         className="w-full"
       >
         <CarouselContent className="ml-0">
           {topAnime.map((anime) => (
             <CarouselItem key={anime.mal_id} className="pl-0 basis-full">
-              {/* Энд таны AnimePic (Bigpic) компонент дэлгэц дүүрэн харагдана */}
               <AnimePic anime={anime} />
             </CarouselItem>
           ))}
         </CarouselContent>
 
-        {/* Удирдах товчлуурууд - Netflix шиг хажуу талдаа */}
         <div className="absolute top-1/2 -translate-y-1/2 w-full flex justify-between px-4 z-20 pointer-events-none">
           <CarouselPrevious className="static pointer-events-auto bg-black/20 hover:bg-black/60 border-none text-white h-12 w-12" />
           <CarouselNext className="static pointer-events-auto bg-black/20 hover:bg-black/60 border-none text-white h-12 w-12" />
         </div>
       </Carousel>
       
-      {/* Доод талын зөөлөн бүдгэрэлт (Дараагийн хэсэгтэй уусах) */}
-      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black to-transparent z-10" />
+      <div className="absolute bottom-0 left-0 w-full h-32 bg-linear-to-t from-black to-transparent z-10" />
     </section>
   );
 };
