@@ -34,6 +34,7 @@ export const fetchAnimeInfo = async (id: string) => {
   }
 };
 
+
 export const fetchStreamLink = async (episodeId: string) => {
   try {
     const { data } = await axios.get(`/watch/${episodeId}`);
@@ -54,18 +55,6 @@ export const fetchTopAnime = async () => {
     return [];
   }
 };
-
-// export const fetchPopularAnime = async () => {
-//   try {
-//     const { data } = await axios.get(`${JIKAN_API}/top/anime?filter=favorite`);
-//     return data.data;
-//   } catch (error: any) {
-//     if (error.response?.status === 429) {
-//       console.warn("Jikan API limit reached. Using backup data or empty array.");
-//     }
-//     return [];
-//   }
-// }
 
 export const fetchPopularAnime = async () => {
   const query = `

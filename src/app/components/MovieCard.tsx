@@ -18,7 +18,7 @@ export const MovieCard = ({ movie }: { movie: any }) => {
   const getRatingColor = (percent: number) => {
     if (percent >= 70) return "#21d07a";
     if (percent >= 40) return "#d2d531";
-    return "#db2360"; // Улаан
+    return "#db2360";
   };
 
   const handleFetchTrailer = async (e: React.MouseEvent) => {
@@ -112,7 +112,7 @@ export const MovieCard = ({ movie }: { movie: any }) => {
         <div className="p-3">
           <h3 className="text-sm font-bold truncate text-gray-800 dark:text-gray-100">{movie.title}</h3>
           <div className="flex items-center gap-1 mt-1 text-amber-500 text-xs">
-            <FaStar /> <span>{movie.vote_average.toFixed(1)}</span>
+            {/* <FaStar /> <span>{movie.vote_average.toFixed(1)}</span>  */}
           </div>
         </div>
 

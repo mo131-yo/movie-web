@@ -38,7 +38,7 @@ export default function RootLayout({
           <Header />
           {children}
           <Footer/>
-          <div className="fixed bottom-6 left-0 w-full z-[999] flex justify-center pointer-events-none">
+          <div className="fixed bottom-6 left-0 w-full z-999 flex justify-center pointer-events-none">
               <div className="pointer-events-auto filter drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
                 <FooterBar />
               </div>

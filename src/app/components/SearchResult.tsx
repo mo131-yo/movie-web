@@ -33,11 +33,9 @@ export const SearchResult = ({ keyword, results, onClose }: Props) => {
           </p>
 
           {results.slice(0, 8).map((item) => {
-            // 1. Нэр болон Огноо тодорхойлох
             const displayTitle = item.title || item.name;
             const displayDate = (item.release_date || item.first_air_date)?.split("-")[0];
 
-            // 2. Зургийн URL шийдэх
             let imageUrl = "/no-image.png"; 
             if (item.poster_path) {
               imageUrl = `https://image.tmdb.org/t/p/w92${item.poster_path}`;
@@ -45,7 +43,6 @@ export const SearchResult = ({ keyword, results, onClose }: Props) => {
               imageUrl = item.images.jpg.image_url;
             }
 
-            // 3. Төрлөөс хамаарч очих замыг шийдэх
             let href = `/movie/${item.id}`;
             if (item.media_type === "tv") href = `/watch/tv/${item.id}`;
             if (item.media_type === "anime") href = `/watch/anime/${item.id}`;
@@ -58,7 +55,6 @@ export const SearchResult = ({ keyword, results, onClose }: Props) => {
                 onClick={onClose}
                 className="flex gap-3 items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-900 transition-all group"
               >
-                {/* Image Section */}
                 <div className="relative w-12 h-16 flex-shrink-0 overflow-hidden rounded-md border border-gray-200 dark:border-gray-800 bg-gray-100 dark:bg-gray-800">
                   <Image
                     src={imageUrl}
@@ -69,7 +65,6 @@ export const SearchResult = ({ keyword, results, onClose }: Props) => {
                   />
                 </div>
 
-                {/* Info Section */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
                     <p className="font-bold text-sm line-clamp-1 dark:text-gray-100">

@@ -25,12 +25,12 @@ export const AnimePic = ({ anime }: { anime: Anime }) => {
           fill
           className="object-cover blur-2xl opacity-40 scale-110" 
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-black/60" />
+        <div className="absolute inset-0 bg-linear-to-t from-black via-black/20 to-black/60" />
       </div>
 
       <div className="relative h-full max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-center md:justify-start gap-10 px-8">
         
-        <div className="relative w-[220px] h-[320px] md:w-[350px] md:h-[500px] flex-shrink-0 shadow-[0_0_50px_rgba(0,0,0,0.8)] rounded-lg overflow-hidden border border-white/10 group">
+        <div className="relative w-55 h-80 md:w-87.5 md:h-125 shrink-0 shadow-[0_0_50px_rgba(0,0,0,0.8)] rounded-lg overflow-hidden border border-white/10 group">
           <Image
             src={anime.images.jpg.large_image_url}
             alt={anime.title}
