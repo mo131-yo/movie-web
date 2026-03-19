@@ -1,0 +1,11 @@
+{
+  "headers": [
+    {
+      "source": "/(.*).vtt",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Content-Type", "value": "text/vtt" }
+      ]
+    }
+  ]
+}

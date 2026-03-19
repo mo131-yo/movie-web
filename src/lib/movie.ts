@@ -35,3 +35,29 @@ export const getOscarWinners = async (page = 1) => {
     return [];
   }
 };
+
+
+import clientPromise from "./mongodb";
+
+export async function fetchMovieData(id: string) {
+  try {
+    const tmdbRes = await fetch(`https://api.themoviedb.org/3/movie/${id}`, {
+      headers: { Authorization: `Bearer ${process.env.NEXT_API_TOKEN}` },
+      next: { revalidate: 3600 }
+    });
+    const tmdbData = await tmdbRes.json();
+
+    const client = await clientPromise;
+    const db = client.db("sample_mflix");
+    
+    const internalData = await db.collection("movies").findOne({ tmdbId: id });
+
+    return {
+      ...tmdbData,
+      subtitleUrl: internalData?.subtitleUrl || null
+    };
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
+}
