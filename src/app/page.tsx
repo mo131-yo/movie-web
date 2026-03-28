@@ -21,7 +21,6 @@ export default async function Home() {
         
           {/* <Anime />
       <TV /> */}
-
       <div className="space-y-10 pb-20 mt-10">
         <section>
           <div className="flex justify-end px-4 sm:px-8 lg:px-20 mb-[-40px]">
