@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from 'react';
-import { fetchTopAnime } from '@/lib/service/anime';
+import { fetchPopularAnimeTMDB } from '@/lib/service/anime';
 import { AnimeCard } from '@/app/components/AnimeCard';
 
 interface AnimeData {
@@ -25,7 +25,7 @@ export default function PopularAnime() {
   useEffect(() => {
     const getTopAnime = async () => {
       try {
-        const data = await fetchTopAnime();
+        const data = await fetchPopularAnimeTMDB();
         setAnimes(data || []); 
       } catch (err) {
         console.error("Error fetching anime:", err);

@@ -1,7 +1,6 @@
 "use client";
 
 import { SlArrowRight } from "react-icons/sl";
-import { VscChromeClose } from "react-icons/vsc";
 import React, { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 
@@ -10,73 +9,54 @@ type Genre = {
   name: string;
 };
 
+type MediaType = "movie" | "tv" | "anime";
+
 export default function MovieGenrePage() {
   const router = useRouter();
-const params = useParams();
-const rawId = params?.id ? decodeURIComponent(params.id as string) : "all";
-const idFromUrl = rawId.includes("NaN") ? "all" : rawId
-  
-  // const idFromUrl = params?.id ? decodeURIComponent(params.id as string) : "all";
+  const params = useParams();
+
+  const type = (params?.type as MediaType) || "movie";
+  const rawId = params?.id ? decodeURIComponent(params.id as string) : "all";
+  const idFromUrl = rawId.includes("NaN") || rawId === "undefined" ? "all" : rawId;
 
   const [genres, setGenres] = useState<Genre[]>([]);
-  const [movies, setMovies] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchGenres = async () => {
-      try {
-        const res = await fetch("https://api.themoviedb.org/3/genre/movie/list?language=en", {
-          headers: {
-            Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_API_KEY}`,
-          },
-        });
-        const data = await res.json();
-        setGenres(data.genres || []);
-      } catch (e) { console.error(e); }
-    };
-    fetchGenres();
-  }, []);
-
-  useEffect(() => {
-    const fetchMovies = async () => {
       setLoading(true);
       try {
-        const queryId = idFromUrl === "all" ? "" : idFromUrl.replace(/,/g, "|");
+        const endpoint = type === "movie" ? "movie" : "tv";
         
+        // ЧУХАЛ: .env дээрх API Key-г URL-д параметр болгон дамжуулна
+        const apiKey = process.env.NEXT_PUBLIC_TMDB_API_KEY;
         const res = await fetch(
-          `https://api.themoviedb.org/3/discover/movie?with_genres=${queryId}&language=mn-MN&sort_by=popularity.desc`,
-          {
-            headers: {
-              Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_API_KEY}`,
-            },
-          }
+          `https://api.themoviedb.org/3/genre/${endpoint}/list?api_key=${apiKey}&language=en-US`
         );
+
+        if (!res.ok) {
+          throw new Error(`API error: ${res.status}`);
+        }
+
         const data = await res.json();
-        setMovies(data.results || []);
-      } catch (error) {
-        console.error("Fetch movies error:", error);
+        setGenres(data.genres || []);
+      } catch (e) {
+        console.error("Жанр татахад алдаа гарлаа:", e);
       } finally {
         setLoading(false);
       }
     };
+    fetchGenres();
+  }, [type]);
 
-    fetchMovies();
-  }, [idFromUrl]); 
-
-
-const handleToggleGenre = (genreId: number) => {
+  const handleToggleGenre = (genreId: number) => {
     let selectedIds = (idFromUrl !== "all" && idFromUrl !== "") 
-      ? idFromUrl.split(/[|,]/).filter(val => 
-          val !== "NaN" && 
-          val !== "undefined" && 
-          val !== "" && 
-          !isNaN(Number(val)) 
-        ) 
+      ? idFromUrl.split(/[|,]/).filter(val => val !== "" && !isNaN(Number(val))) 
       : [];
 
-  const genreIdStr = String(genreId);
-  
-if (selectedIds.includes(genreIdStr)) {
+    const genreIdStr = String(genreId);
+    
+    if (selectedIds.includes(genreIdStr)) {
       selectedIds = selectedIds.filter((id) => id !== genreIdStr);
     } else {
       selectedIds = [...selectedIds, genreIdStr];
@@ -84,37 +64,41 @@ if (selectedIds.includes(genreIdStr)) {
 
     if (selectedIds.length > 0) {
       const uniqueIds = Array.from(new Set(selectedIds));
-      router.push(`/genre/${uniqueIds.join(",")}`);
+      router.push(`/genre/${type}/${uniqueIds.join(",")}`);
     } else {
-      router.push(`/genre/all`);
+      router.push(`/genre/${type}/all`);
     }
   };
+
   return (
-    <div className="p-6 lg:p-10">
-      <div className="flex flex-wrap gap-3 mb-10">
-        {genres.map((genre) => {
-          const isSelected = idFromUrl !== "all" && idFromUrl.split(/[|,]/).includes(String(genre.id));
-          return (
-            <button key={genre.id} onClick={() => handleToggleGenre(genre.id)} className={`px-4 py-1.5 text-sm border rounded-full transition-all duration-300 ${
-                isSelected
-                  ? "bg-black text-white border-black shadow-md scale-105 dark:bg-blue-600"
-                  : "bg-white text-gray-700 border-gray-200 hover:border-black"
-              }`}
-            >
-             <div className="flex gap-1">{genre.name}
-               <div className="p-1">
-                <SlArrowRight />
-               </div>
-             </div>
-            </button>
-          );
-        })}
-        
-        {idFromUrl !== "all" && (
-          <button onClick={() => router.push("/genre/all")} className="text-sm text-red-500 font-medium hover:underline px-2">Reset</button>
+    <div className="w-full">
+      <div className="flex flex-wrap gap-3">
+        {loading ? (
+          [...Array(8)].map((_, i) => (
+            <div key={i} className="h-8 w-24 bg-gray-200 dark:bg-gray-800 animate-pulse rounded-full" />
+          ))
+        ) : genres.length > 0 ? (
+          genres.map((genre) => {
+            const isSelected = idFromUrl !== "all" && idFromUrl.split(/[|,]/).includes(String(genre.id));
+            return (
+              <button 
+                key={genre.id} 
+                onClick={() => handleToggleGenre(genre.id)} 
+                className={`px-4 py-1.5 text-xs font-medium border rounded-full transition-all duration-300 flex items-center gap-2 ${
+                  isSelected
+                    ? "bg-black text-white border-black shadow-md scale-105 dark:bg-blue-600 dark:border-blue-600"
+                    : "bg-white text-gray-700 border-gray-200 hover:border-black dark:bg-gray-900 dark:text-gray-400 dark:border-gray-700 dark:hover:border-blue-500"
+                }`}
+              >
+                {genre.name}
+                <SlArrowRight className={`text-[10px] transition-transform ${isSelected ? "rotate-90" : ""}`} />
+              </button>
+            );
+          })
+        ) : (
+          <p className="text-sm text-gray-500">Жанр олдсонгүй. API Key-гээ шалгана уу.</p>
         )}
       </div>
-      <div className="mb-10 opacity-10" ></div>
     </div>
   );
 }

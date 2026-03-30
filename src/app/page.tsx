@@ -5,10 +5,7 @@ import { Toprated } from "./components/Toprated";
 import { Scroll } from "./components/Scroll";
 import Link from "next/link";
 import { HiArrowSmallRight } from "react-icons/hi2";
-import { CursorFollower } from "@/app/components/CursonFollower";
 import Anime from "./components/Anime";
-import Manga from "./components/Manga";
-import TV from "./components/TV";
 import Hero from "./components/Hero";
 import MovieMap from "./components/MovieMap";
 

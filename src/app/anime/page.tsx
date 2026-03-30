@@ -1,7 +1,7 @@
 import { Scroll } from './components/AnimeScroll'
 import PopularAnime from './animeCategory/page'
 import HighRatedAnime from './components/HighRated'
-import { NowPlaying } from './components/NowPlaying'
+// import { NowPlaying } from './components/NowPlaying'
 
 export default function Page() {
   return (
@@ -9,7 +9,7 @@ export default function Page() {
         <Scroll/>   
         <PopularAnime/>
         {/* <HighRatedAnime/> */}
-        <NowPlaying/>
+        {/* <NowPlaying/> */}
     </div>
   )
 }

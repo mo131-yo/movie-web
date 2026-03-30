@@ -1,31 +1,19 @@
 "use client";
 import { useEffect, useState } from 'react';
-import { fetchTopAnime } from '@/lib/service/anime';
 import { AnimeCard } from '@/app/components/AnimeCard';
-
-interface AnimeData {
-  mal_id: number;
-  title: string;
-  images: {
-    jpg: {
-      large_image_url: string;
-    };
-  };
-  score: number;
-  type: string;
-  trailer: {
-    url: string;
-  };
-}
+// Заавал fetchPopularAnimeTMDB-г import хийнэ
+import { fetchPopularAnimeTMDB } from '@/lib/service/anime'; 
 
 export default function PopularAnime() {
-  const [animes, setAnimes] = useState<AnimeData[]>([]);
+  // TMDB-ийн өгөгдөл Jikan-аас өөр тул 'any[]' ашиглах эсвэл шинэ interface үүсгэнэ
+  const [animes, setAnimes] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getTopAnime = async () => {
       try {
-        const data = await fetchTopAnime();
+        // Jikan (fetchTopAnime) биш TMDB (fetchPopularAnimeTMDB) ашиглана
+        const data = await fetchPopularAnimeTMDB(1);
         setAnimes(data || []); 
       } catch (err) {
         console.error("Error fetching anime:", err);
@@ -76,7 +64,8 @@ export default function PopularAnime() {
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-8 px-4 sm:px-8 lg:px-20 mb-10">
         {animes.slice(0, 10).map((anime) => (
-          <AnimeCard key={anime.mal_id} anime={anime} />
+          // TMDB-д mal_id байхгүй, 'id' байгаа тул key-г id болгож засав
+          <AnimeCard key={anime.id} anime={anime} />
         ))}
       </div>
     </div>

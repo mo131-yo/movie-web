@@ -73,7 +73,7 @@ export const MovieCard = ({ movie }: { movie: any }) => {
           <div className="relative aspect-2/3 w-full overflow-hidden">
             <Image
               src={movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : "/no-image.png"}
-              alt={movie.title} fill className={`object-cover transition-all duration-500 ${isHovered ? "blur-sm brightness-50" : ""}`}
+              alt={movie.title || movie.name || "Movie Poster"} fill className={`object-cover transition-all duration-500 ${isHovered ? "blur-sm brightness-50" : ""}`}
             />
             
             <div className="absolute top-2 left-2 z-30 scale-90 origin-top-left">

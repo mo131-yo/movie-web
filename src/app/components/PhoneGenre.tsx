@@ -10,39 +10,51 @@ type Genre = {
   name: string;
 };
 
+type MediaType = "movie" | "tv" | "anime";
+
 export default function Phonegenre() {
   const [genres, setGenres] = useState<Genre[]>([]);
   const [selectedGenres, setSelectedGenres] = useState<number[]>([]);
+  const [activeTab, setActiveTab] = useState<MediaType>("movie");
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   
   const router = useRouter();
   const params = useParams();
 
- useEffect(() => {
-  if (params.id) {
-    const idsFromUrl = (params.id as string)
-      .split(",")
-      .map(id => Number(id))
-      .filter(id => !isNaN(id)); 
+  useEffect(() => {
+    if (params.id) {
+      const idsFromUrl = (params.id as string)
+        .split(",")
+        .map(id => Number(id))
+        .filter(id => !isNaN(id)); 
+      setSelectedGenres(idsFromUrl);
+    } else {
+      setSelectedGenres([]); 
+    }
     
-    setSelectedGenres(idsFromUrl);
-  } else {
-    setSelectedGenres([]); 
-  }
-}, [params.id]);
+    if (params.type) {
+        setActiveTab(params.type as MediaType);
+    }
+  }, [params.id, params.type]);
 
-  const getGenres = async () => {
+  const getGenres = async (type: MediaType) => {
+    setLoading(true);
     try {
-      setLoading(true);
-      const res = await fetch("https://api.themoviedb.org/3/genre/movie/list?language=en", {
-        headers: {
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_API_KEY}`,
-          "Content-Type": "application/json",
-        },
-      });
+      // АНИМЭ логик: Anime эсвэл TV үед 'tv' endpoint-оос жанр татна
+      const endpoint = (type === "anime" || type === "tv") ? "tv" : "movie";
+      const apiKey = process.env.NEXT_PUBLIC_TMDB_API_KEY;
+      
+      const res = await fetch(`https://api.themoviedb.org/3/genre/${endpoint}/list?api_key=${apiKey}&language=en-US`);
+      
       const data = await res.json();
-      setGenres(data.genres || []);
+      
+      // Хэрэв Anime бол Animation (16) жанрыг жагсаалтаас нууна (Учир нь энэ нь суурь шүүлтүүр)
+      const finalGenres = type === "anime" 
+        ? (data.genres || []).filter((g: Genre) => g.id !== 16)
+        : (data.genres || []);
+
+      setGenres(finalGenres);
     } catch (error) {
       console.error("Genres fetch error:", error);
     } finally {
@@ -51,73 +63,100 @@ export default function Phonegenre() {
   };
 
   useEffect(() => {
-    getGenres();
-  }, []);
+    getGenres(activeTab);
+  }, [activeTab]);
 
   const handleGenreClick = (id: number) => {
     setSelectedGenres((prev) =>
-      prev.includes(id) 
-        ? prev.filter((g) => g !== id) 
-        : [...prev, id]
+      prev.includes(id) ? prev.filter((g) => g !== id) : [...prev, id]
     );
   };
 
   const applyFilter = () => {
-  const validGenres = selectedGenres.filter(id => !isNaN(id) && id !== 0);
+    const validGenres = selectedGenres.filter(id => !isNaN(id) && id !== 0);
+    const genreIds = validGenres.length > 0 ? validGenres.join(",") : "all";
 
-  if (validGenres.length > 0) {
-    router.push(`/genre/${validGenres.join(",")}`);
-  } else {
-    router.push(`/genre/all`); 
-  }
-  setOpen(false);
-};
+    // URL-ийн бүтэц: /genre/anime/28,12 эсвэл /genre/movie/all
+    router.push(`/genre/${activeTab}/${genreIds}`);
+    setOpen(false);
+  };
 
   return (
-    <div className="relative left-30 px-35 lg:px-0 py-8">
-      <Badge onClick={() => setOpen(!open)} variant="outline" className="cursor-pointer relative right-30 shadow text-black text-sm font-medium px-4 py-2 mt-4 rounded-lg mb-4 flex gap-2 items-center hover:bg-gray-50 transition-colors dark:bg-gray-800 dark:text-white">
+    <div className="relative py-4 px-4 lg:hidden">
+      <Badge 
+        onClick={() => setOpen(!open)} 
+        variant="outline" 
+        className="cursor-pointer shadow text-black text-sm font-medium px-4 py-2 rounded-lg flex gap-2 items-center hover:bg-gray-50 transition-colors dark:bg-gray-800 dark:text-white"
+      >
         <SlArrowDown className={`transition-transform ${open ? "rotate-180" : ""}`} />
+        <span className="uppercase">{activeTab} Filter</span>
       </Badge>
+
       {open && (
-        <div className="absolute top-24 mt-2 right-3 w-90 sm:w-110 bg-white border border-gray-200 rounded-2xl shadow-2xl p-5 z-50 dark:bg-gray-900 dark:border-gray-700">
-          <h3 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100">Select Genres</h3>
+        <div className="absolute top-16 left-4 right-4 bg-white border border-gray-200 rounded-2xl shadow-2xl p-5 z-[100] dark:bg-gray-950 dark:border-gray-800">
           
-          {loading ? (
-            <div className="flex justify-center py-10">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+          <div className="flex bg-gray-100 dark:bg-gray-900 p-1 rounded-xl mb-4">
+            {(["movie", "tv", "anime"] as MediaType[]).map((type) => (
+              <button
+                key={type}
+                onClick={() => {
+                    setActiveTab(type);
+                    setSelectedGenres([]); // Төрөл солигдоход сонгосон жанруудыг цэвэрлэнэ
+                }}
+                className={`flex-1 py-1.5 text-[10px] font-bold uppercase rounded-lg transition-all ${
+                  activeTab === type 
+                    ? "bg-white dark:bg-gray-800 shadow-sm text-blue-600" 
+                    : "text-gray-500"
+                }`}
+              >
+                {type}
+              </button>
+            ))}
+          </div>
+
+          <h3 className="text-sm font-bold mb-3 dark:text-gray-100 uppercase">Select Genres</h3>
+          
+          <div className="flex flex-wrap gap-2 max-h-60 overflow-y-auto pr-2 custom-scrollbar min-h-[120px]">
+            {loading ? (
+              <div className="w-full flex justify-center py-10">
+                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+              </div>
+            ) : (
+              genres.map((genre) => {
+                const isSelected = selectedGenres.includes(genre.id);
+                return (
+                  <button 
+                    key={genre.id} 
+                    onClick={() => handleGenreClick(genre.id)} 
+                    className={`px-3 py-1.5 text-xs font-medium border rounded-full transition-all ${
+                      isSelected
+                        ? "bg-blue-600 text-white border-blue-600 shadow-md"
+                        : "bg-transparent text-gray-600 border-gray-200 dark:border-gray-700 dark:text-gray-400"
+                    }`}
+                  >
+                    {genre.name}
+                  </button>
+                );
+              })
+            )}
+          </div>
+          
+          <div className="mt-6 pt-4 border-t border-gray-100 dark:border-gray-800 flex justify-between items-center">
+            <button 
+              onClick={() => setSelectedGenres([])} 
+              className="text-xs font-bold text-gray-400 hover:text-red-500"
+            >
+              Reset
+            </button>
+            <div className="flex gap-2">
+              <button onClick={() => setOpen(false)} className="px-4 py-2 text-xs font-medium dark:text-gray-400">
+                Cancel
+              </button>
+              <button onClick={applyFilter} className="px-6 py-2 bg-blue-600 text-white rounded-lg text-xs font-bold shadow-lg hover:bg-blue-700">
+                Apply
+              </button>
             </div>
-          ) : (
-            <>
-              <div className="flex flex-wrap gap-2.5 max-h-72 overflow-y-auto pr-2 custom-scrollbar">
-                {genres.map((genre) => {
-                  const isSelected = selectedGenres.includes(genre.id);
-                  return (
-                    <button key={genre.id} onClick={() => handleGenreClick(genre.id)} className={`px-4 py-2 text-sm font-medium border rounded-full transition-all duration-200 ${
-                        isSelected
-                          ? "bg-blue-600 text-white border-blue-600 shadow-md transform scale-105"
-                          : "bg-transparent text-gray-600 border-gray-300 hover:border-blue-400 hover:text-blue-500 dark:text-gray-400"
-                      }`}>
-                      {genre.name}
-                    </button>
-                  );
-                })}
-              </div>
-              
-              <div className="mt-6 pt-4 border-t border-gray-100 dark:border-gray-800 flex justify-between items-center">
-                <button onClick={() => setSelectedGenres([])} className="text-sm font-medium text-gray-400 hover:text-red-500 transition-colors">
-                  Reset all
-                </button>
-                <div className="flex gap-2">
-                   <button onClick={() => setOpen(false)} className="px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
-                    Cancel
-                  </button>
-                  <button onClick={applyFilter} className="px-6 py-2 bg-blue-600 text-white rounded-lg text-sm font-bold hover:bg-blue-700 shadow-lg shadow-blue-200 dark:shadow-none transition-all">
-                    Apply
-                  </button>
-                </div>
-              </div>
-            </>
-          )}
+          </div>
         </div>
       )}
     </div>

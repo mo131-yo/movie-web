@@ -103,12 +103,11 @@
           </motion.div>
         </div>
         </div>
-        <div className="flex gap-2">
+        {/* <div className="flex gap-2">
           <Link href={"/"} className="">Movie</Link>
           <Link href={"/anime"}>Anime</Link>
-          <Link href={"/anime"}>Manga</Link>
           <Link href={"/anime"}>TV Series</Link>
-        </div>
+        </div> */}
   <div>
   <div className="flex items-center justify-between w-full gap-2">
       <div className="hidden sm:block">
@@ -138,17 +137,18 @@
   </AnimatePresence>
       <Search className={`ml-3 w-5 h-5 shrink-0 ${isFocused ? "text-indigo-500" : "text-gray-400"}`} />
       
-      <input 
-        type="text"   
-        placeholder="Search the movie..."
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setTimeout(() => setIsFocused(false), 200)}
-        onChange={handleChange} 
-        value={searchValue}
-        className={`bg-transparent p-2 outline-none w-full text-sm dark:text-white transition-all duration-300 ${
-          isFocused ? "opacity-100 block" : "opacity-0 sm:opacity-100 hidden sm:block"
-        }`}
-      />
+     <input 
+              type="text"   
+              placeholder="Movie, Anime хайх..."
+              onFocus={() => setIsFocused(true)}
+              // Blur хийхэд хайлтын үр дүн шууд алга болохгүй байхын тулд хугацаа өгөх
+              onBlur={() => setTimeout(() => setIsFocused(false), 300)}
+              onChange={handleChange} 
+              value={searchValue}
+              className={`bg-transparent p-2 outline-none w-full text-sm dark:text-white transition-all duration-300 ${
+                isFocused ? "opacity-100 block" : "opacity-0 sm:opacity-100 hidden sm:block"
+              }`}
+            />
 
       {isLoading && <Loader className="absolute right-10 w-4 h-4 animate-spin text-indigo-500" />}
       
@@ -167,11 +167,14 @@
 
       {isFocused && searchValue && (
         <div className="absolute top-12 right-15 sm:left-0 w-full z-50 sm:min-w-100">
-          <SearchResult 
-            keyword={searchValue} 
-            results={results} 
-            onClose={() => setSearchValue("")} 
-          />
+         <SearchResult 
+                    keyword={searchValue} 
+                    results={results} 
+                    onClose={() => {
+                      setSearchValue("");
+                      setIsFocused(false);
+                    }} 
+                  />
         </div>
       )}
     </div>

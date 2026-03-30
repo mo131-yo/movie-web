@@ -13,7 +13,17 @@
 //       {
 //         protocol: "https",
 //         hostname: "image.tmdb.org",
-//         pathname: "/t/p/**", 
+//         pathname: "/t/p/**",
+//       },
+//       {
+//         protocol: "https",
+//         hostname: "myanimelist.net",
+//         pathname: "/**",
+//       },
+//       {
+//         protocol: "https",
+//         hostname: "cdn.myanimelist.net",
+//         pathname: "/**",
 //       },
 //     ],
 //   },
@@ -47,6 +57,17 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "cdn.myanimelist.net",
+        pathname: "/**",
+      },
+      // --- MangaDex-ийн тохиргоог энд нэмлээ ---
+      {
+        protocol: "https",
+        hostname: "uploads.mangadex.org",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "*.mangadex.network",
         pathname: "/**",
       },
     ],
